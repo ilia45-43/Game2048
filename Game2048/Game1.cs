@@ -20,6 +20,14 @@ namespace Game2048
         {
             // TODO: Add your initialization logic here
 
+            int a = 0;
+
+            for (int i = 0; i < 10; i++)
+            {
+                a += i;
+            }
+
+
             base.Initialize();
         }
 
