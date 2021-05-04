@@ -18,7 +18,13 @@ namespace Game2048
 
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here 
+             int a = 0;
+             for (int i = 0; i < 10; i++) 
+            { 
+                a -= i; 
+            } 
+
+            // TODO: Add your initialization logic here
 
             base.Initialize();
         }
