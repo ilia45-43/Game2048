@@ -9,6 +9,28 @@ namespace Game2048
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
 
+        private Texture2D texture_2;
+        private Texture2D texture_4;
+        private Texture2D texture_8;
+        private Texture2D texture_16; // Иннициализация наших циферок
+
+        static Vector2 start = new Vector2(50, 50); // Просто начальный вектор от которого будут отталкиваться остальные векторы
+
+
+        Vector2[,] positions = new Vector2[4, 4] { 
+            { start, start, start, start },
+            { start, start, start, start },
+            { start, start, start, start },
+            { start, start, start, start }};
+
+        //int speed = 3;
+
+        int[,] gameBoard = new int[4, 4] { 
+            { 0, 16, 16, 0 }, 
+            { 0, 4, 4, 0 }, 
+            { 0, 2, 2, 0 }, 
+            { 8, 2, 2, 8 } }; // Основная доска с которой будем работать
+
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -18,45 +40,101 @@ namespace Game2048
 
         protected override void Initialize()
         {
-             int a = 0;
-             for (int i = 0; i < 10; i++) 
-            { 
-                a -= i; 
-            } 
-
             // TODO: Add your initialization logic here
 
-            int a = 0;
-
-            for (int i = 0; i < 10; i++)
-            {
-                a += i;
-            }
-
+            ChangingWindowSize(650, 650); // Метод который регулирует размер окна, он ниже
 
             base.Initialize();
         }
 
+        /// <summary>
+        /// This function changes the window size (Меняет размер окна)
+        /// </summary>
+        /// <param name="width"></param>
+        /// <param name="height"></param>
+        private void ChangingWindowSize(int width, int height)
+        {
+            _graphics.IsFullScreen = false;
+            _graphics.PreferredBackBufferWidth = width; // Ширина
+            _graphics.PreferredBackBufferHeight = height; // Высота
+            _graphics.ApplyChanges();
+        }
+
+
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
+
+            texture_2 = Content.Load<Texture2D>("2");
+            texture_4 = Content.Load<Texture2D>("4");
+            texture_8 = Content.Load<Texture2D>("8");
+            texture_16 = Content.Load<Texture2D>("16"); // Иннициализируем пикчи циферок в память
 
             // TODO: use this.Content to load your game content here
         }
 
         protected override void Update(GameTime gameTime)
         {
+            KeyboardState keyboardState = Keyboard.GetState();
+
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
             // TODO: Add your update logic here
+
+            //if (keyboardState.IsKeyDown(Keys.Left))
+            //    position.X -= speed;
+            //if (keyboardState.IsKeyDown(Keys.Right))
+            //    position.X += speed;
+            //if (keyboardState.IsKeyDown(Keys.Up))
+            //    position.Y -= speed;
+            //if (keyboardState.IsKeyDown(Keys.Down))
+            //    position.Y += speed;
+
+
+            for (int i = 0; i < 4; i++) // Тут формируются места для наших иконок, для каждого значения свое место, 
+                                        // То есть это просто векторы
+            {
+                for (int j = 0; j < 4; j++)
+                {
+                    positions[i, j] = new Vector2(start.X + (120 * j), start.Y + (120 * i));
+                }
+            }
+
 
             base.Update(gameTime);
         }
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(Color.Chocolate); // Цвет фона
+
+            _spriteBatch.Begin(); // Начало отрисовки 
+
+            for (int i = 0; i < 4; i++) // Ниже 2 цикла которые проверяют, есть ли какие то цифры на игровой доске,
+                                        // если нет ничего, если есть => отрисовывают цифру которая есть в базе
+            {
+                for (int j = 0; j < 4; j++)
+                {
+                    if(gameBoard[i,j] == 2)
+                    {
+                        _spriteBatch.Draw(texture_2, positions[i,j], Color.White);
+                    }
+                    else if (gameBoard[i,j] == 4)
+                    {
+                        _spriteBatch.Draw(texture_4, positions[i, j], Color.White);
+                    }
+                    else if (gameBoard[i, j] == 8)
+                    {
+                        _spriteBatch.Draw(texture_8, positions[i, j], Color.White);
+                    }
+                    else if (gameBoard[i, j] == 16)
+                    {
+                        _spriteBatch.Draw(texture_16, positions[i, j], Color.White);
+                    }
+                }
+            }
+            _spriteBatch.End(); // Конец отрисовки
 
             // TODO: Add your drawing code here
 
