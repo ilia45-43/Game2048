@@ -18,6 +18,7 @@ namespace Game2048
 
 
         Vector2[,] positions = new Vector2[4, 4] { 
+
             { start, start, start, start },
             { start, start, start, start },
             { start, start, start, start },
@@ -40,7 +41,6 @@ namespace Game2048
 
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
 
             ChangingWindowSize(650, 650); // Метод который регулирует размер окна, он ниже
 
