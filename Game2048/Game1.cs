@@ -34,6 +34,7 @@ namespace Game2048
 
         public Game1()
         {
+            //новые изменения
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
