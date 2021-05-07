@@ -16,25 +16,80 @@ namespace Game2048
 
         static Vector2 start = new Vector2(50, 50); // Просто начальный вектор от которого будут отталкиваться остальные векторы
 
-
         Vector2[,] positions = new Vector2[4, 4] { 
-
             { start, start, start, start },
             { start, start, start, start },
             { start, start, start, start },
             { start, start, start, start }};
 
-        //int speed = 3;
-
         int[,] gameBoard = new int[4, 4] { 
-            { 0, 16, 16, 0 }, 
-            { 0, 4, 4, 0 }, 
-            { 0, 2, 2, 0 }, 
-            { 8, 2, 2, 8 } }; // Основная доска с которой будем работать
+            { 0, 2, 0, 0 }, 
+            { 0, 0, 0, 0 }, 
+            { 0, 0, 0, 0 }, 
+            { 0, 0, 0, 0 } }; // Основная доска с которой будем работать
+
+        private void MoveLeft() // Функция передвижения влево
+        {
+            for (int i = 0; i < 4; i++)
+            {
+                for (int j = 0; j < 3; j++)
+                {
+                    if (gameBoard[i, j] == 0)
+                    {
+                        gameBoard[i, j] = gameBoard[i, j + 1];
+                        gameBoard[i, j + 1] = 0;
+                    }
+                }
+            }
+        }
+
+        private void MoveRight() // Функция передвижения вправо
+        {
+            for (int i = 0; i < 4; i++)
+            {
+                for (int j = 0; j < 3; j++)
+                {
+                    if (gameBoard[i, j + 1] == 0)
+                    {
+                        gameBoard[i, j + 1] = gameBoard[i, j];
+                        gameBoard[i, j] = 0;
+                    }
+                }
+            }
+        }
+
+        private void MoveUp() // Функция передвижения вверх
+        {
+            for (int i = 0; i < 3; i++)
+            {
+                for (int j = 0; j < 4; j++)
+                {
+                    if (gameBoard[i, j] == 0)
+                    {
+                        gameBoard[i, j] = gameBoard[i + 1, j];
+                        gameBoard[i + 1, j] = 0;
+                    }
+                }
+            }
+        }
+
+        private void MoveDown() // Функция передвижения вниз
+        {
+            for (int i = 0; i < 3; i++)
+            {
+                for (int j = 0; j < 4; j++)
+                {
+                    if (gameBoard[i + 1, j] == 0)
+                    {
+                        gameBoard[i + 1, j] = gameBoard[i, j];
+                        gameBoard[i, j] = 0;
+                    }
+                }
+            }
+        }
 
         public Game1()
         {
-            //новые изменения
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
@@ -42,7 +97,6 @@ namespace Game2048
 
         protected override void Initialize()
         {
-
             ChangingWindowSize(650, 650); // Метод который регулирует размер окна, он ниже
 
             base.Initialize();
@@ -93,6 +147,25 @@ namespace Game2048
             //    position.Y += speed;
 
 
+            // Отсюда
+            if (keyboardState.IsKeyDown(Keys.Left))
+                MoveLeft();
+            if (keyboardState.IsKeyDown(Keys.Right))
+                MoveRight();
+            if (keyboardState.IsKeyDown(Keys.Up))
+                MoveUp();
+            if (keyboardState.IsKeyDown(Keys.Down))
+                MoveDown();
+            // Досюда
+            // Тут мы проверяем нажата ли клавиша, если да то запускается функция
+
+            MakingPositions(); // Это та функция которая делает просто позиции
+
+            base.Update(gameTime);
+        }
+
+        private void MakingPositions()
+        {
             for (int i = 0; i < 4; i++) // Тут формируются места для наших иконок, для каждого значения свое место, 
                                         // То есть это просто векторы
             {
@@ -101,9 +174,6 @@ namespace Game2048
                     positions[i, j] = new Vector2(start.X + (120 * j), start.Y + (120 * i));
                 }
             }
-
-
-            base.Update(gameTime);
         }
 
         protected override void Draw(GameTime gameTime)
@@ -112,16 +182,27 @@ namespace Game2048
 
             _spriteBatch.Begin(); // Начало отрисовки 
 
+            DrawingNumbers(); // Это функция как раз таки проверяет цифры, и ставит их как надо
+
+            _spriteBatch.End(); // Конец отрисовки
+
+            // TODO: Add your drawing code here
+
+            base.Draw(gameTime);
+        }
+
+        private void DrawingNumbers()
+        {
             for (int i = 0; i < 4; i++) // Ниже 2 цикла которые проверяют, есть ли какие то цифры на игровой доске,
                                         // если нет ничего, если есть => отрисовывают цифру которая есть в базе
             {
                 for (int j = 0; j < 4; j++)
                 {
-                    if(gameBoard[i,j] == 2)
+                    if (gameBoard[i, j] == 2)
                     {
-                        _spriteBatch.Draw(texture_2, positions[i,j], Color.White);
+                        _spriteBatch.Draw(texture_2, positions[i, j], Color.White);
                     }
-                    else if (gameBoard[i,j] == 4)
+                    else if (gameBoard[i, j] == 4)
                     {
                         _spriteBatch.Draw(texture_4, positions[i, j], Color.White);
                     }
@@ -135,11 +216,6 @@ namespace Game2048
                     }
                 }
             }
-            _spriteBatch.End(); // Конец отрисовки
-
-            // TODO: Add your drawing code here
-
-            base.Draw(gameTime);
         }
     }
 }
