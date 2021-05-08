@@ -23,10 +23,10 @@ namespace Game2048
             { start, start, start, start }};
 
         int[,] gameBoard = new int[4, 4] { 
-            { 0, 2, 0, 0 }, 
+            { 4, 2, 2, 4 }, 
             { 0, 0, 0, 0 }, 
             { 0, 0, 0, 0 }, 
-            { 0, 0, 0, 0 } }; // Основная доска с которой будем работать
+            { 8, 4, 0, 0 } }; // Основная доска с которой будем работать
 
         private void MoveLeft() // Функция передвижения влево
         {
@@ -41,7 +41,25 @@ namespace Game2048
                     }
                 }
             }
+
+            SumLeft();
         }
+
+        private void SumLeft()
+        {
+            for (int i = 0; i < 4; i++)
+            {
+                for (int j = 0; j < 3; j++)
+                {
+                    if (gameBoard[i, j] == gameBoard[i, j + 1])
+                    {
+                        gameBoard[i, j] = gameBoard[i, j] + gameBoard[i, j + 1];
+                        gameBoard[i, j + 1] = 0;
+                        break;
+                    }
+                }
+            }
+        } // Складывает элементы при перемещении влево
 
         private void MoveRight() // Функция передвижения вправо
         {
@@ -56,7 +74,25 @@ namespace Game2048
                     }
                 }
             }
+
+            SumRight();
         }
+
+        private void SumRight()
+        {
+            for (int i = 0; i <= 3; i++)
+            {
+                for (int j = 0; j < 3; j++)
+                {
+                    if (gameBoard[i, j + 1] == gameBoard[i, j])
+                    {
+                        gameBoard[i, j + 1] = gameBoard[i, j + 1] + gameBoard[i, j];
+                        gameBoard[i, j] = 0;
+                        break;
+                    }
+                }
+            }
+        } // Складывает элементы при перемещении вправо
 
         private void MoveUp() // Функция передвижения вверх
         {
@@ -71,7 +107,25 @@ namespace Game2048
                     }
                 }
             }
+
+            SumUp();
         }
+
+        private void SumUp()
+        {
+            for (int i = 0; i < 3; i++)
+            {
+                for (int j = 0; j < 4; j++)
+                {
+                    if (gameBoard[i, j] == gameBoard[i + 1, j])
+                    {
+                        gameBoard[i, j] = gameBoard[i, j] + gameBoard[i + 1, j];
+                        gameBoard[i + 1, j] = 0;
+                        break;
+                    }
+                }
+            }
+        } // Складывает элементы при перемещении вверх
 
         private void MoveDown() // Функция передвижения вниз
         {
@@ -86,7 +140,25 @@ namespace Game2048
                     }
                 }
             }
+
+            SumDowm();
         }
+
+        private void SumDowm()
+        {
+            for (int i = 0; i < 3; i++)
+            {
+                for (int j = 0; j < 4; j++)
+                {
+                    if (gameBoard[i, j] == gameBoard[i + 1, j])
+                    {
+                        gameBoard[i, j] = gameBoard[i, j] + gameBoard[i + 1, j];
+                        gameBoard[i + 1, j] = 0;
+                        break;
+                    }
+                }
+            }
+        } // Складывает элементы при перемещении вниз
 
         public Game1()
         {

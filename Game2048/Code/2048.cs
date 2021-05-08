@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Game2048
 {
-    static class Game2048
+    class Game2048
     {
 
     }
