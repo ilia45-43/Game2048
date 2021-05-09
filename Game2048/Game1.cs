@@ -13,6 +13,7 @@ namespace Game2048
         private Texture2D texture_4;
         private Texture2D texture_8;
         private Texture2D texture_16; // Иннициализация наших циферок
+        private Texture2D texture_32; 
 
         static Vector2 start = new Vector2(50, 50); // Просто начальный вектор от которого будут отталкиваться остальные векторы
 
@@ -26,7 +27,7 @@ namespace Game2048
             { 4, 2, 2, 4 }, 
             { 0, 0, 0, 0 }, 
             { 0, 0, 0, 0 }, 
-            { 8, 4, 0, 0 } }; // Основная доска с которой будем работать
+            { 8, 4, 0, 8 } }; // Основная доска с которой будем работать
 
         private void MoveLeft() // Функция передвижения влево
         {
@@ -196,6 +197,7 @@ namespace Game2048
             texture_4 = Content.Load<Texture2D>("4");
             texture_8 = Content.Load<Texture2D>("8");
             texture_16 = Content.Load<Texture2D>("16"); // Иннициализируем пикчи циферок в память
+            texture_32 = Content.Load<Texture2D>("32");
 
             // TODO: use this.Content to load your game content here
         }
@@ -285,6 +287,10 @@ namespace Game2048
                     else if (gameBoard[i, j] == 16)
                     {
                         _spriteBatch.Draw(texture_16, positions[i, j], Color.White);
+                    }
+                    else if (gameBoard[i, j] == 32)
+                    {
+                        _spriteBatch.Draw(texture_32, positions[i, j], Color.White);
                     }
                 }
             }
