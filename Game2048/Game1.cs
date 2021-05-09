@@ -24,149 +24,18 @@ namespace Game2048
             { start, start, start, start },
             { start, start, start, start }};
 
-        int[,] gameBoard = new int[4, 4] { 
+        public static int[,] gameBoard = new int[4, 4] { 
             { 4, 2, 2, 4 }, 
             { 0, 0, 0, 0 }, 
             { 0, 0, 0, 0 }, 
             { 8, 4, 0, 8 } }; // Основная доска с которой будем работать
-
-        private void MoveLeft() // Функция передвижения влево
-        {
-            for (int i = 0; i < 4; i++)
-            {
-                for (int j = 0; j < 3; j++)
-                {
-                    if (gameBoard[i, j] == 0)
-                    {
-                        gameBoard[i, j] = gameBoard[i, j + 1];
-                        gameBoard[i, j + 1] = 0;
-                    }
-                }
-            }
-
-            SumLeft();
-        }
-
-        private void SumLeft()
-        {
-            for (int i = 0; i < 4; i++)
-            {
-                for (int j = 0; j < 3; j++)
-                {
-                    if (gameBoard[i, j] == gameBoard[i, j + 1])
-                    {
-                        gameBoard[i, j] = gameBoard[i, j] + gameBoard[i, j + 1];
-                        gameBoard[i, j + 1] = 0;
-                        break;
-                    }
-                }
-            }
-        } // Складывает элементы при перемещении влево
-
-        private void MoveRight() // Функция передвижения вправо
-        {
-            for (int i = 0; i < 4; i++)
-            {
-                for (int j = 0; j < 3; j++)
-                {
-                    if (gameBoard[i, j + 1] == 0)
-                    {
-                        gameBoard[i, j + 1] = gameBoard[i, j];
-                        gameBoard[i, j] = 0;
-                    }
-                }
-            }
-
-            SumRight();
-        }
-
-        private void SumRight()
-        {
-            for (int i = 0; i <= 3; i++)
-            {
-                for (int j = 0; j < 3; j++)
-                {
-                    if (gameBoard[i, j + 1] == gameBoard[i, j])
-                    {
-                        gameBoard[i, j + 1] = gameBoard[i, j + 1] + gameBoard[i, j];
-                        gameBoard[i, j] = 0;
-                        break;
-                    }
-                }
-            }
-        } // Складывает элементы при перемещении вправо
-
-        private void MoveUp() // Функция передвижения вверх
-        {
-            for (int i = 0; i < 3; i++)
-            {
-                for (int j = 0; j < 4; j++)
-                {
-                    if (gameBoard[i, j] == 0)
-                    {
-                        gameBoard[i, j] = gameBoard[i + 1, j];
-                        gameBoard[i + 1, j] = 0;
-                    }
-                }
-            }
-
-            SumUp();
-        }
-
-        private void SumUp()
-        {
-            for (int i = 0; i < 3; i++)
-            {
-                for (int j = 0; j < 4; j++)
-                {
-                    if (gameBoard[i, j] == gameBoard[i + 1, j])
-                    {
-                        gameBoard[i, j] = gameBoard[i, j] + gameBoard[i + 1, j];
-                        gameBoard[i + 1, j] = 0;
-                        break;
-                    }
-                }
-            }
-        } // Складывает элементы при перемещении вверх
-
-        private void MoveDown() // Функция передвижения вниз
-        {
-            for (int i = 0; i < 3; i++)
-            {
-                for (int j = 0; j < 4; j++)
-                {
-                    if (gameBoard[i + 1, j] == 0)
-                    {
-                        gameBoard[i + 1, j] = gameBoard[i, j];
-                        gameBoard[i, j] = 0;
-                    }
-                }
-            }
-
-            SumDowm();
-        }
-
-        private void SumDowm()
-        {
-            for (int i = 0; i < 3; i++)
-            {
-                for (int j = 0; j < 4; j++)
-                {
-                    if (gameBoard[i, j] == gameBoard[i + 1, j])
-                    {
-                        gameBoard[i, j] = gameBoard[i, j] + gameBoard[i + 1, j];
-                        gameBoard[i + 1, j] = 0;
-                        break;
-                    }
-                }
-            }
-        } // Складывает элементы при перемещении вниз
 
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
+            TargetElapsedTime = new System.TimeSpan(0, 0, 0, 0, 50);
         }
 
         protected override void Initialize()
@@ -225,13 +94,13 @@ namespace Game2048
 
             // Отсюда
             if (keyboardState.IsKeyDown(Keys.Left))
-                MoveLeft();
+                Game2048.MoveLeft();
             if (keyboardState.IsKeyDown(Keys.Right))
-                MoveRight();
+                Game2048.MoveRight();
             if (keyboardState.IsKeyDown(Keys.Up))
-                MoveUp();
+                Game2048.MoveUp();
             if (keyboardState.IsKeyDown(Keys.Down))
-                MoveDown();
+                Game2048.MoveDown();
             // Досюда
             // Тут мы проверяем нажата ли клавиша, если да то запускается функция
 
