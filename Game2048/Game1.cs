@@ -12,7 +12,7 @@ namespace Game2048
         private Texture2D texture_2;
         private Texture2D texture_4;
         private Texture2D texture_8;
-        private Texture2D texture_16; // Иннициализация наших циферок
+        private Texture2D texture_16;
         private Texture2D texture_32;
         private Texture2D texture_2048;
 
@@ -25,10 +25,12 @@ namespace Game2048
             { start, start, start, start }};
 
         public static int[,] gameBoard = new int[4, 4] { 
-            { 4, 2, 2, 4 }, 
+            { 2, 2, 2, 2 }, 
+            { 2, 0, 0, 0 }, 
             { 0, 0, 0, 0 }, 
-            { 0, 0, 0, 0 }, 
-            { 8, 4, 0, 8 } }; // Основная доска с которой будем работать
+            { 2, 0, 4, 8 } }; // Основная доска с которой будем работать
+
+        public bool checkKeyDown = false;
 
         public Game1()
         {
@@ -91,18 +93,46 @@ namespace Game2048
             //if (keyboardState.IsKeyDown(Keys.Down))
             //    position.Y += speed;
 
+            if (!checkKeyDown)
+            {
+                if (keyboardState.IsKeyDown(Keys.Left))
+                {
+                    Game2048.MoveLeft();
+                    Game2048.SumLeft();
+                    Game2048.MoveLeft();
+                    checkKeyDown = true;
+                }
 
-            // Отсюда
-            if (keyboardState.IsKeyDown(Keys.Left))
-                Game2048.MoveLeft();
-            if (keyboardState.IsKeyDown(Keys.Right))
-                Game2048.MoveRight();
-            if (keyboardState.IsKeyDown(Keys.Up))
-                Game2048.MoveUp();
-            if (keyboardState.IsKeyDown(Keys.Down))
-                Game2048.MoveDown();
-            // Досюда
-            // Тут мы проверяем нажата ли клавиша, если да то запускается функция
+                if (keyboardState.IsKeyDown(Keys.Right))
+                {
+                    Game2048.MoveRight();
+                    Game2048.SumRight();
+                    Game2048.MoveRight();
+                    checkKeyDown = true;
+                }
+
+                if (keyboardState.IsKeyDown(Keys.Up))
+                {
+                    Game2048.MoveUp();
+                    Game2048.SumUp();
+                    Game2048.MoveUp();
+                    checkKeyDown = true;
+                }
+
+                if (keyboardState.IsKeyDown(Keys.Down))
+                {
+                    Game2048.MoveDown();
+                    Game2048.SumDown();
+                    Game2048.MoveDown();
+                    checkKeyDown = true;
+                }
+            }
+
+            if (keyboardState.IsKeyUp(Keys.Down) && keyboardState.IsKeyUp(Keys.Up) &&
+                keyboardState.IsKeyUp(Keys.Right) && keyboardState.IsKeyUp(Keys.Left))
+            {
+                checkKeyDown = false;
+            }
 
             MakingPositions(); // Это та функция которая делает просто позиции
 

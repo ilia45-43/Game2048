@@ -10,32 +10,26 @@ namespace Game2048
     {
         public static void MoveLeft() // Функция передвижения влево
         {
-            for (int i = 0; i < 4; i++)
-            {
-                for (int j = 0; j < 3; j++)
-                {
-                    if (Game1.gameBoard[i, j] == 0)
-                    {
-                        Game1.gameBoard[i, j] = Game1.gameBoard[i, j + 1];
-                        Game1.gameBoard[i, j + 1] = 0;
-                    }
-                }
-            }
-
-            SumLeft();
+            for (int u = 0; u < 4; u++)
+                for (int i = 0; i < 4; i++)
+                    for (int j = 0; j < 3; j++)
+                        if (Game1.gameBoard[i, j] == 0)
+                        {
+                            Game1.gameBoard[i, j] = Game1.gameBoard[i, j + 1];
+                            Game1.gameBoard[i, j + 1] = 0;
+                        }
         }
 
-        private static void SumLeft()
+        public static void SumLeft()
         {
             for (int i = 0; i < 4; i++)
             {
                 for (int j = 0; j < 3; j++)
                 {
-                    if (Game1.gameBoard[i, j] == Game1.gameBoard[i, j + 1])
+                    if (Game1.gameBoard[i, j + 1] == Game1.gameBoard[i, j])
                     {
                         Game1.gameBoard[i, j] = Game1.gameBoard[i, j] + Game1.gameBoard[i, j + 1];
                         Game1.gameBoard[i, j + 1] = 0;
-                        break;
                     }
                 }
             }
@@ -43,32 +37,26 @@ namespace Game2048
 
         public static void MoveRight() // Функция передвижения вправо
         {
-            for (int i = 0; i < 4; i++)
-            {
-                for (int j = 0; j < 3; j++)
-                {
-                    if (Game1.gameBoard[i, j + 1] == 0)
-                    {
-                        Game1.gameBoard[i, j + 1] = Game1.gameBoard[i, j];
-                        Game1.gameBoard[i, j] = 0;
-                    }
-                }
-            }
-
-            SumRight();
+            for (int u = 0; u < 4; u++)
+                for (int i = 0; i < 4; i++)
+                    for (int j = 0; j < 3; j++)
+                        if (Game1.gameBoard[i, j + 1] == 0)
+                        {
+                            Game1.gameBoard[i, j + 1] = Game1.gameBoard[i, j];
+                            Game1.gameBoard[i, j] = 0;
+                        }
         }
 
-        private static void SumRight()
+        public static void SumRight()
         {
-            for (int i = 0; i <= 3; i++)
+            for (int i = 3; i >= 0; i--)
             {
-                for (int j = 0; j < 3; j++)
+                for (int j = 3; j > 0; j--)
                 {
-                    if (Game1.gameBoard[i, j + 1] == Game1.gameBoard[i, j])
+                    if (Game1.gameBoard[i, j - 1] == Game1.gameBoard[i, j])
                     {
-                        Game1.gameBoard[i, j + 1] = Game1.gameBoard[i, j + 1] + Game1.gameBoard[i, j];
-                        Game1.gameBoard[i, j] = 0;
-                        break;
+                        Game1.gameBoard[i, j] = Game1.gameBoard[i, j - 1] + Game1.gameBoard[i, j];
+                        Game1.gameBoard[i, j - 1] = 0;
                     }
                 }
             }
@@ -76,32 +64,26 @@ namespace Game2048
 
         public static void MoveUp() // Функция передвижения вверх
         {
-            for (int i = 0; i < 3; i++)
-            {
-                for (int j = 0; j < 4; j++)
-                {
-                    if (Game1.gameBoard[i, j] == 0)
-                    {
-                        Game1.gameBoard[i, j] = Game1.gameBoard[i + 1, j];
-                        Game1.gameBoard[i + 1, j] = 0;
-                    }
-                }
-            }
-
-            SumUp();
+            for (int u = 0; u < 4; u++)
+                for (int i = 0; i < 3; i++)
+                    for (int j = 0; j < 4; j++)
+                        if (Game1.gameBoard[i, j] == 0)
+                        {
+                            Game1.gameBoard[i, j] = Game1.gameBoard[i + 1, j];
+                            Game1.gameBoard[i + 1, j] = 0;
+                        }
         }
 
-        private static void SumUp()
+        public static void SumUp()
         {
-            for (int i = 0; i < 3; i++)
+            for (int i = 0; i < 4; i++)
             {
-                for (int j = 0; j < 4; j++)
+                for (int j = 0; j < 3; j++)
                 {
-                    if (Game1.gameBoard[i, j] == Game1.gameBoard[i + 1, j])
+                    if (Game1.gameBoard[j, i] == Game1.gameBoard[j + 1, i])
                     {
-                        Game1.gameBoard[i, j] = Game1.gameBoard[i, j] + Game1.gameBoard[i + 1, j];
-                        Game1.gameBoard[i + 1, j] = 0;
-                        break;
+                        Game1.gameBoard[j, i] = Game1.gameBoard[j, i] + Game1.gameBoard[j + 1, i];
+                        Game1.gameBoard[j + 1, i] = 0;
                     }
                 }
             }
@@ -109,32 +91,26 @@ namespace Game2048
 
         public static void MoveDown() // Функция передвижения вниз
         {
-            for (int i = 0; i < 3; i++)
-            {
-                for (int j = 0; j < 4; j++)
-                {
-                    if (Game1.gameBoard[i + 1, j] == 0)
-                    {
-                        Game1.gameBoard[i + 1, j] = Game1.gameBoard[i, j];
-                        Game1.gameBoard[i, j] = 0;
-                    }
-                }
-            }
-
-            SumDowm();
+            for (int u = 0; u < 4; u++)
+                for (int i = 0; i < 3; i++)
+                    for (int j = 0; j < 4; j++)
+                        if (Game1.gameBoard[i + 1, j] == 0)
+                        {
+                            Game1.gameBoard[i + 1, j] = Game1.gameBoard[i, j];
+                            Game1.gameBoard[i, j] = 0;
+                        }
         }
 
-        private static void SumDowm()
+        public static void SumDown()
         {
-            for (int i = 0; i < 3; i++)
+            for (int i = 3; i >= 0; i--)
             {
-                for (int j = 0; j < 4; j++)
+                for (int j = 3; j > 0; j--)
                 {
-                    if (Game1.gameBoard[i, j] == Game1.gameBoard[i + 1, j])
+                    if (Game1.gameBoard[j, i] == Game1.gameBoard[j - 1, i])
                     {
-                        Game1.gameBoard[i, j] = Game1.gameBoard[i, j] + Game1.gameBoard[i + 1, j];
-                        Game1.gameBoard[i + 1, j] = 0;
-                        break;
+                        Game1.gameBoard[j, i] = Game1.gameBoard[j, i] + Game1.gameBoard[j - 1, i];
+                        Game1.gameBoard[j - 1, i] = 0;
                     }
                 }
             }
