@@ -14,9 +14,13 @@ namespace Game2048
         private Texture2D texture_8;
         private Texture2D texture_16;
         private Texture2D texture_32;
+        private Texture2D texture_64;
+        private Texture2D texture_128;
         private Texture2D texture_2048;
 
-        static Vector2 start = new Vector2(50, 50); // Просто начальный вектор от которого будут отталкиваться остальные векторы
+        private static Vector2 start = new Vector2(50, 50); // Просто начальный вектор от которого будут отталкиваться остальные векторы
+
+        public bool checkKeyDown = false;
 
         Vector2[,] positions = new Vector2[4, 4] { 
             { start, start, start, start },
@@ -29,8 +33,6 @@ namespace Game2048
             { 2, 0, 0, 0 }, 
             { 0, 0, 0, 0 }, 
             { 2, 0, 4, 8 } }; // Основная доска с которой будем работать
-
-        public bool checkKeyDown = false;
 
         public Game1()
         {
@@ -70,6 +72,8 @@ namespace Game2048
             texture_8 = Content.Load<Texture2D>("8");
             texture_16 = Content.Load<Texture2D>("16"); // Иннициализируем пикчи циферок в память
             texture_32 = Content.Load<Texture2D>("32");
+            texture_64 = Content.Load<Texture2D>("64");
+            texture_128 = Content.Load<Texture2D>("128");
             texture_2048 = Content.Load<Texture2D>("2048");
 
             // TODO: use this.Content to load your game content here
@@ -128,10 +132,11 @@ namespace Game2048
                 }
             }
 
-            if (keyboardState.IsKeyUp(Keys.Down) && keyboardState.IsKeyUp(Keys.Up) &&
-                keyboardState.IsKeyUp(Keys.Right) && keyboardState.IsKeyUp(Keys.Left))
+            if ((checkKeyDown == true) && (keyboardState.IsKeyUp(Keys.Down) && keyboardState.IsKeyUp(Keys.Up) &&
+                keyboardState.IsKeyUp(Keys.Right) && keyboardState.IsKeyUp(Keys.Left)))
             {
                 checkKeyDown = false;
+                Game2048.NewNumber();
             }
 
             MakingPositions(); // Это та функция которая делает просто позиции
@@ -192,6 +197,14 @@ namespace Game2048
                     else if (gameBoard[i, j] == 32)
                     {
                         _spriteBatch.Draw(texture_32, positions[i, j], Color.White);
+                    }
+                    else if (gameBoard[i, j] == 64)
+                    {
+                        _spriteBatch.Draw(texture_64, positions[i, j], Color.White);
+                    }
+                    else if (gameBoard[i, j] == 128)
+                    {
+                        _spriteBatch.Draw(texture_128, positions[i, j], Color.White);
                     }
                     else if (gameBoard[i,j] == 2048)
                     {
