@@ -8,6 +8,7 @@ namespace Game2048
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
+        private SpriteFont textBlock;
 
         private Texture2D texture_2;
         private Texture2D texture_4;
@@ -22,6 +23,8 @@ namespace Game2048
 
         public bool checkKeyDown = false;
 
+        public static int score = 0;
+
         Vector2[,] positions = new Vector2[4, 4] { 
             { start, start, start, start },
             { start, start, start, start },
@@ -29,10 +32,10 @@ namespace Game2048
             { start, start, start, start }};
 
         public static int[,] gameBoard = new int[4, 4] { 
-            { 2, 2, 2, 2 }, 
             { 2, 0, 0, 0 }, 
             { 0, 0, 0, 0 }, 
-            { 2, 0, 4, 8 } }; // Основная доска с которой будем работать
+            { 0, 0, 0, 0 }, 
+            { 2, 0, 0, 0 } }; // Основная доска с которой будем работать
 
         public Game1()
         {
@@ -76,6 +79,8 @@ namespace Game2048
             texture_128 = Content.Load<Texture2D>("128");
             texture_2048 = Content.Load<Texture2D>("2048");
 
+            textBlock = Content.Load<SpriteFont>("TextForScore");
+
             // TODO: use this.Content to load your game content here
         }
 
@@ -87,15 +92,6 @@ namespace Game2048
                 Exit();
 
             // TODO: Add your update logic here
-
-            //if (keyboardState.IsKeyDown(Keys.Left))
-            //    position.X -= speed;
-            //if (keyboardState.IsKeyDown(Keys.Right))
-            //    position.X += speed;
-            //if (keyboardState.IsKeyDown(Keys.Up))
-            //    position.Y -= speed;
-            //if (keyboardState.IsKeyDown(Keys.Down))
-            //    position.Y += speed;
 
             if (!checkKeyDown)
             {
@@ -141,6 +137,8 @@ namespace Game2048
 
             MakingPositions(); // Это та функция которая делает просто позиции
 
+
+
             base.Update(gameTime);
         }
 
@@ -164,11 +162,20 @@ namespace Game2048
 
             DrawingNumbers(); // Это функция как раз таки проверяет цифры, и ставит их как надо
 
+            DrawingScoreText();
+
             _spriteBatch.End(); // Конец отрисовки
 
             // TODO: Add your drawing code here
 
             base.Draw(gameTime);
+        }
+
+        private void DrawingScoreText()
+        {
+            Vector2 position = new Microsoft.Xna.Framework.Vector2(_graphics.PreferredBackBufferWidth - 200, _graphics.PreferredBackBufferHeight - 100); // position
+            Microsoft.Xna.Framework.Color color = new Microsoft.Xna.Framework.Color(255, 255, 255);// color yellow
+            _spriteBatch.DrawString(textBlock, score.ToString(), position, color); // draw text
         }
 
         private void DrawingNumbers()

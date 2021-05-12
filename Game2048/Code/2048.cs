@@ -10,17 +10,28 @@ namespace Game2048
     {
         static bool checkNewStep = false;
 
+        public static void CountingScore(int number)
+        {
+            Game1.score += number;
+        }
+
         public static void MoveLeft() // Функция передвижения влево
         {
             for (int u = 0; u < 4; u++)
+            {
                 for (int i = 0; i < 4; i++)
+                {
                     for (int j = 0; j < 3; j++)
-                        if (Game1.gameBoard[i, j] == 0)
+                    {
+                        if ((Game1.gameBoard[i, j] == 0) && (Game1.gameBoard[i, j + 1] != 0))
                         {
                             Game1.gameBoard[i, j] = Game1.gameBoard[i, j + 1];
                             Game1.gameBoard[i, j + 1] = 0;
                             checkNewStep = true;
                         }
+                    }
+                }
+            }
         }
 
         public static void SumLeft()
@@ -29,11 +40,12 @@ namespace Game2048
             {
                 for (int j = 0; j < 3; j++)
                 {
-                    if (Game1.gameBoard[i, j + 1] == Game1.gameBoard[i, j])
+                    if ((Game1.gameBoard[i, j + 1] == Game1.gameBoard[i, j]) && (Game1.gameBoard[i, j] != 0))
                     {
                         Game1.gameBoard[i, j] = Game1.gameBoard[i, j] + Game1.gameBoard[i, j + 1];
                         Game1.gameBoard[i, j + 1] = 0;
                         checkNewStep = true;
+                        CountingScore(Game1.gameBoard[i, j]);
                     }
                 }
             }
@@ -44,12 +56,15 @@ namespace Game2048
             for (int u = 0; u < 4; u++)
                 for (int i = 0; i < 4; i++)
                     for (int j = 0; j < 3; j++)
-                        if (Game1.gameBoard[i, j + 1] == 0)
+                    {
+                        if ((Game1.gameBoard[i, j + 1] == 0) && (Game1.gameBoard[i, j] != 0))
                         {
                             Game1.gameBoard[i, j + 1] = Game1.gameBoard[i, j];
                             Game1.gameBoard[i, j] = 0;
                             checkNewStep = true;
+
                         }
+                    }
         }
 
         public static void SumRight()
@@ -58,11 +73,12 @@ namespace Game2048
             {
                 for (int j = 3; j > 0; j--)
                 {
-                    if (Game1.gameBoard[i, j - 1] == Game1.gameBoard[i, j])
+                    if ((Game1.gameBoard[i, j - 1] == Game1.gameBoard[i, j]) && (Game1.gameBoard[i, j] != 0))
                     {
                         Game1.gameBoard[i, j] = Game1.gameBoard[i, j - 1] + Game1.gameBoard[i, j];
                         Game1.gameBoard[i, j - 1] = 0;
                         checkNewStep = true;
+                        CountingScore(Game1.gameBoard[i, j]);
                     }
                 }
             }
@@ -73,12 +89,14 @@ namespace Game2048
             for (int u = 0; u < 4; u++)
                 for (int i = 0; i < 3; i++)
                     for (int j = 0; j < 4; j++)
-                        if (Game1.gameBoard[i, j] == 0)
+                    {
+                        if ((Game1.gameBoard[i, j] == 0) && (Game1.gameBoard[i + 1, j] != 0))
                         {
                             Game1.gameBoard[i, j] = Game1.gameBoard[i + 1, j];
                             Game1.gameBoard[i + 1, j] = 0;
                             checkNewStep = true;
                         }
+                    }
         }
 
         public static void SumUp()
@@ -87,11 +105,12 @@ namespace Game2048
             {
                 for (int j = 0; j < 3; j++)
                 {
-                    if (Game1.gameBoard[j, i] == Game1.gameBoard[j + 1, i])
+                    if ((Game1.gameBoard[j, i] == Game1.gameBoard[j + 1, i]) && (Game1.gameBoard[j, i] != 0))
                     {
                         Game1.gameBoard[j, i] = Game1.gameBoard[j, i] + Game1.gameBoard[j + 1, i];
                         Game1.gameBoard[j + 1, i] = 0;
                         checkNewStep = true;
+                        CountingScore(Game1.gameBoard[j, i]);
                     }
                 }
             }
@@ -102,12 +121,14 @@ namespace Game2048
             for (int u = 0; u < 4; u++)
                 for (int i = 0; i < 3; i++)
                     for (int j = 0; j < 4; j++)
-                        if (Game1.gameBoard[i + 1, j] == 0)
+                    {
+                        if ((Game1.gameBoard[i + 1, j] == 0) && (Game1.gameBoard[i, j] != 0))
                         {
                             Game1.gameBoard[i + 1, j] = Game1.gameBoard[i, j];
                             Game1.gameBoard[i, j] = 0;
                             checkNewStep = true;
                         }
+                    }
         }
 
         public static void SumDown()
@@ -116,11 +137,12 @@ namespace Game2048
             {
                 for (int j = 3; j > 0; j--)
                 {
-                    if (Game1.gameBoard[j, i] == Game1.gameBoard[j - 1, i])
+                    if ((Game1.gameBoard[j, i] == Game1.gameBoard[j - 1, i]) && (Game1.gameBoard[j, i] != 0))
                     {
                         Game1.gameBoard[j, i] = Game1.gameBoard[j, i] + Game1.gameBoard[j - 1, i];
                         Game1.gameBoard[j - 1, i] = 0;
                         checkNewStep = true;
+                        CountingScore(Game1.gameBoard[j, i]);
                     }
                 }
             }
@@ -149,6 +171,7 @@ namespace Game2048
 
                 checkNewStep = false;
             }
+
         }
     }
 }
