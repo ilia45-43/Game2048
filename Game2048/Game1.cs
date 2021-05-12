@@ -8,7 +8,7 @@ namespace Game2048
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
-        private SpriteFont textBlock;
+        private SpriteFont textForScore;
 
         private Texture2D texture_2;
         private Texture2D texture_4;
@@ -32,10 +32,10 @@ namespace Game2048
             { start, start, start, start }};
 
         public static int[,] gameBoard = new int[4, 4] { 
-            { 2, 0, 0, 0 }, 
             { 0, 0, 0, 0 }, 
-            { 0, 0, 0, 0 }, 
-            { 2, 0, 0, 0 } }; // Основная доска с которой будем работать
+            { 4, 2, 4, 2 }, 
+            { 2, 4, 2, 4 }, 
+            { 4, 2, 4, 2 } }; // Основная доска с которой будем работать
 
         public Game1()
         {
@@ -65,7 +65,6 @@ namespace Game2048
             _graphics.ApplyChanges();
         }
 
-
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
@@ -79,7 +78,7 @@ namespace Game2048
             texture_128 = Content.Load<Texture2D>("128");
             texture_2048 = Content.Load<Texture2D>("2048");
 
-            textBlock = Content.Load<SpriteFont>("TextForScore");
+            textForScore = Content.Load<SpriteFont>("TextForScore");
 
             // TODO: use this.Content to load your game content here
         }
@@ -137,7 +136,15 @@ namespace Game2048
 
             MakingPositions(); // Это та функция которая делает просто позиции
 
-
+            //if (Game2048.CheckEndGame())
+            //{
+            //    gameBoard = new int[4, 4]{
+            //        { 0, 0, 0, 0 },
+            //        { 0, 0, 0, 0 },
+            //        { 0, 0, 0, 0 },
+            //        { 0, 0, 0, 0 }
+            //    };
+            //}
 
             base.Update(gameTime);
         }
@@ -175,7 +182,7 @@ namespace Game2048
         {
             Vector2 position = new Microsoft.Xna.Framework.Vector2(_graphics.PreferredBackBufferWidth - 200, _graphics.PreferredBackBufferHeight - 100); // position
             Microsoft.Xna.Framework.Color color = new Microsoft.Xna.Framework.Color(255, 255, 255);// color yellow
-            _spriteBatch.DrawString(textBlock, score.ToString(), position, color); // draw text
+            _spriteBatch.DrawString(textForScore, score.ToString(), position, color); // draw text
         }
 
         private void DrawingNumbers()
