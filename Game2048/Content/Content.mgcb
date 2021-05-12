@@ -109,3 +109,10 @@
 /processorParam:TextureFormat=Color
 /build:8.png;8
 
+#begin File.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:File.spritefont;TextForScore
+
