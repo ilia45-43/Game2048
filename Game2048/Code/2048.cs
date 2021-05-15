@@ -3,23 +3,88 @@ using System.Collections.Generic;
 using System.Text;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework;
 
 namespace Game2048
 {
-    class Game2048
+    public class Game2048 : Game1
     {
         static bool checkNewStep = false;
 
+        private static Vector2 start = new Vector2(50, 50); // Просто начальный вектор от которого будут отталкиваться остальные векторы
+
         public static void CountingScore(int number)
         {
-            Game1.score += number;
+            score += number;
+        }
+
+        public static void MakingPositions()
+        {
+            for (int i = 0; i < 4; i++) // Тут формируются места для наших иконок, для каждого значения свое место, 
+                                        // То есть это просто векторы
+            {
+                for (int j = 0; j < 4; j++)
+                {
+                    positions[i, j] = new Vector2(start.X + (120 * j), start.Y + (120 * i));
+                }
+            }
+        }
+
+        public static void DrawingNumbers()
+        {
+            for (int i = 0; i < 4; i++) // Ниже 2 цикла которые проверяют, есть ли какие то цифры на игровой доске,
+                                        // если нет ничего, если есть => отрисовывают цифру которая есть в базе
+            {
+                for (int j = 0; j < 4; j++)
+                {
+                    if (gameBoard[i, j] == 2)
+                    {
+                        _spriteBatch.Draw(texture_2, positions[i, j], Color.White);
+                    }
+                    else if (gameBoard[i, j] == 4)
+                    {
+                        _spriteBatch.Draw(texture_4, positions[i, j], Color.White);
+                    }
+                    else if (gameBoard[i, j] == 8)
+                    {
+                        _spriteBatch.Draw(texture_8, positions[i, j], Color.White);
+                    }
+                    else if (gameBoard[i, j] == 16)
+                    {
+                        _spriteBatch.Draw(texture_16, positions[i, j], Color.White);
+                    }
+                    else if (gameBoard[i, j] == 32)
+                    {
+                        _spriteBatch.Draw(texture_32, positions[i, j], Color.White);
+                    }
+                    else if (gameBoard[i, j] == 64)
+                    {
+                        _spriteBatch.Draw(texture_64, positions[i, j], Color.White);
+                    }
+                    else if (gameBoard[i, j] == 128)
+                    {
+                        _spriteBatch.Draw(texture_128, positions[i, j], Color.White);
+                    }
+                    else if (gameBoard[i, j] == 2048)
+                    {
+                        _spriteBatch.Draw(texture_2048, positions[i, j], Color.White);
+                    }
+                }
+            }
+        }
+
+        public static void DrawingScoreText()
+        {
+            Vector2 position = new Microsoft.Xna.Framework.Vector2(_graphics.PreferredBackBufferWidth - 200, _graphics.PreferredBackBufferHeight - 100); // position
+            Microsoft.Xna.Framework.Color color = new Microsoft.Xna.Framework.Color(255, 255, 255);// color yellow
+            _spriteBatch.DrawString(textForScore, score.ToString(), position, color); // draw text
         }
 
         public static bool CheckEndGame()
         {
             int[,] copyGameBoard = new int[4, 4];
 
-            Array.Copy(Game1.gameBoard, 0, copyGameBoard, 0, 16);
+            Array.Copy(gameBoard, 0, copyGameBoard, 0, 16);
 
             if ((MoveDown(copyGameBoard) && MoveUp(copyGameBoard) && MoveLeft(copyGameBoard) && MoveRight(copyGameBoard)
                 && SumDown(copyGameBoard) && SumUp(copyGameBoard) && SumLeft(copyGameBoard) && SumRight(copyGameBoard)) == true)
@@ -40,10 +105,10 @@ namespace Game2048
                 {
                     for (int j = 0; j < 3; j++)
                     {
-                        if ((Game1.gameBoard[i, j] == 0) && (Game1.gameBoard[i, j + 1] != 0))
+                        if ((gameBoard[i, j] == 0) && (gameBoard[i, j + 1] != 0))
                         {
-                            Game1.gameBoard[i, j] = Game1.gameBoard[i, j + 1];
-                            Game1.gameBoard[i, j + 1] = 0;
+                            gameBoard[i, j] = gameBoard[i, j + 1];
+                            gameBoard[i, j + 1] = 0;
                             checkNewStep = true;
                         }
                     }
@@ -57,12 +122,12 @@ namespace Game2048
             {
                 for (int j = 0; j < 3; j++)
                 {
-                    if ((Game1.gameBoard[i, j + 1] == Game1.gameBoard[i, j]) && (Game1.gameBoard[i, j] != 0))
+                    if ((gameBoard[i, j + 1] == gameBoard[i, j]) && (gameBoard[i, j] != 0))
                     {
-                        Game1.gameBoard[i, j] = Game1.gameBoard[i, j] + Game1.gameBoard[i, j + 1];
-                        Game1.gameBoard[i, j + 1] = 0;
+                        gameBoard[i, j] = gameBoard[i, j] + gameBoard[i, j + 1];
+                        gameBoard[i, j + 1] = 0;
                         checkNewStep = true;
-                        CountingScore(Game1.gameBoard[i, j]);
+                        CountingScore(gameBoard[i, j]);
                     }
                 }
             }
@@ -74,10 +139,10 @@ namespace Game2048
                 for (int i = 0; i < 4; i++)
                     for (int j = 0; j < 3; j++)
                     {
-                        if ((Game1.gameBoard[i, j + 1] == 0) && (Game1.gameBoard[i, j] != 0))
+                        if ((gameBoard[i, j + 1] == 0) && (gameBoard[i, j] != 0))
                         {
-                            Game1.gameBoard[i, j + 1] = Game1.gameBoard[i, j];
-                            Game1.gameBoard[i, j] = 0;
+                            gameBoard[i, j + 1] = gameBoard[i, j];
+                            gameBoard[i, j] = 0;
                             checkNewStep = true;
 
                         }
@@ -90,12 +155,12 @@ namespace Game2048
             {
                 for (int j = 3; j > 0; j--)
                 {
-                    if ((Game1.gameBoard[i, j - 1] == Game1.gameBoard[i, j]) && (Game1.gameBoard[i, j] != 0))
+                    if ((gameBoard[i, j - 1] == gameBoard[i, j]) && (gameBoard[i, j] != 0))
                     {
-                        Game1.gameBoard[i, j] = Game1.gameBoard[i, j - 1] + Game1.gameBoard[i, j];
-                        Game1.gameBoard[i, j - 1] = 0;
+                        gameBoard[i, j] = gameBoard[i, j - 1] + gameBoard[i, j];
+                        gameBoard[i, j - 1] = 0;
                         checkNewStep = true;
-                        CountingScore(Game1.gameBoard[i, j]);
+                        CountingScore(gameBoard[i, j]);
                     }
                 }
             }
@@ -107,10 +172,10 @@ namespace Game2048
                 for (int i = 0; i < 3; i++)
                     for (int j = 0; j < 4; j++)
                     {
-                        if ((Game1.gameBoard[i, j] == 0) && (Game1.gameBoard[i + 1, j] != 0))
+                        if ((gameBoard[i, j] == 0) && (gameBoard[i + 1, j] != 0))
                         {
-                            Game1.gameBoard[i, j] = Game1.gameBoard[i + 1, j];
-                            Game1.gameBoard[i + 1, j] = 0;
+                            gameBoard[i, j] = gameBoard[i + 1, j];
+                            gameBoard[i + 1, j] = 0;
                             checkNewStep = true;
                         }
                     }
@@ -122,12 +187,12 @@ namespace Game2048
             {
                 for (int j = 0; j < 3; j++)
                 {
-                    if ((Game1.gameBoard[j, i] == Game1.gameBoard[j + 1, i]) && (Game1.gameBoard[j, i] != 0))
+                    if ((gameBoard[j, i] == gameBoard[j + 1, i]) && (gameBoard[j, i] != 0))
                     {
-                        Game1.gameBoard[j, i] = Game1.gameBoard[j, i] + Game1.gameBoard[j + 1, i];
-                        Game1.gameBoard[j + 1, i] = 0;
+                        gameBoard[j, i] = gameBoard[j, i] + gameBoard[j + 1, i];
+                        gameBoard[j + 1, i] = 0;
                         checkNewStep = true;
-                        CountingScore(Game1.gameBoard[j, i]);
+                        CountingScore(gameBoard[j, i]);
                     }
                 }
             }
@@ -139,10 +204,10 @@ namespace Game2048
                 for (int i = 0; i < 3; i++)
                     for (int j = 0; j < 4; j++)
                     {
-                        if ((Game1.gameBoard[i + 1, j] == 0) && (Game1.gameBoard[i, j] != 0))
+                        if ((gameBoard[i + 1, j] == 0) && (gameBoard[i, j] != 0))
                         {
-                            Game1.gameBoard[i + 1, j] = Game1.gameBoard[i, j];
-                            Game1.gameBoard[i, j] = 0;
+                            gameBoard[i + 1, j] = gameBoard[i, j];
+                            gameBoard[i, j] = 0;
                             checkNewStep = true;
                         }
                     }
@@ -154,12 +219,12 @@ namespace Game2048
             {
                 for (int j = 3; j > 0; j--)
                 {
-                    if ((Game1.gameBoard[j, i] == Game1.gameBoard[j - 1, i]) && (Game1.gameBoard[j, i] != 0))
+                    if ((gameBoard[j, i] == gameBoard[j - 1, i]) && (gameBoard[j, i] != 0))
                     {
-                        Game1.gameBoard[j, i] = Game1.gameBoard[j, i] + Game1.gameBoard[j - 1, i];
-                        Game1.gameBoard[j - 1, i] = 0;
+                        gameBoard[j, i] = gameBoard[j, i] + gameBoard[j - 1, i];
+                        gameBoard[j - 1, i] = 0;
                         checkNewStep = true;
-                        CountingScore(Game1.gameBoard[j, i]);
+                        CountingScore(gameBoard[j, i]);
                     }
                 }
             }
@@ -178,7 +243,7 @@ namespace Game2048
 
                 for (int i = 0; i < 4; i++)
                     for (int j = 0; j < 4; j++)
-                        if (Game1.gameBoard[i, j] == 0)
+                        if (gameBoard[i, j] == 0)
                         {
                             spaceI.Add(i);
                             spaceJ.Add(j);
@@ -188,7 +253,7 @@ namespace Game2048
 
                 int chanceForFour = rand.Next(0,100);
 
-                Game1.gameBoard[spaceI[randomPlace], spaceJ[randomPlace]] = chanceForFour <= 10 ? 4 : 2;
+                gameBoard[spaceI[randomPlace], spaceJ[randomPlace]] = chanceForFour <= 10 ? 4 : 2;
 
                 checkNewStep = false;
                 spaceI.Clear();
