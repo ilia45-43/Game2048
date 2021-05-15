@@ -6,18 +6,18 @@ namespace Game2048
 {
     public class Game1 : Game
     {
-        private GraphicsDeviceManager _graphics;
-        private SpriteBatch _spriteBatch;
-        private SpriteFont textForScore;
+        public static GraphicsDeviceManager _graphics;
+        public static SpriteBatch _spriteBatch;
+        public static SpriteFont textForScore;
 
-        private Texture2D texture_2;
-        private Texture2D texture_4;
-        private Texture2D texture_8;
-        private Texture2D texture_16;
-        private Texture2D texture_32;
-        private Texture2D texture_64;
-        private Texture2D texture_128;
-        private Texture2D texture_2048;
+        public static Texture2D texture_2;
+        public static Texture2D texture_4;
+        public static Texture2D texture_8;
+        public static Texture2D texture_16;
+        public static Texture2D texture_32;
+        public static Texture2D texture_64;
+        public static Texture2D texture_128;
+        public static Texture2D texture_2048;
 
         private static Vector2 start = new Vector2(50, 50); // Просто начальный вектор от которого будут отталкиваться остальные векторы
 
@@ -25,7 +25,7 @@ namespace Game2048
 
         public static int score = 0;
 
-        Vector2[,] positions = new Vector2[4, 4] { 
+        public static Vector2[,] positions = new Vector2[4, 4] { 
             { start, start, start, start },
             { start, start, start, start },
             { start, start, start, start },
@@ -35,7 +35,7 @@ namespace Game2048
             { 0, 0, 0, 0 }, 
             { 4, 2, 4, 2 }, 
             { 2, 4, 2, 4 }, 
-            { 4, 2, 4, 2 } }; // Основная доска с которой будем работать
+            { 0, 0, 0, 0 } }; // Основная доска с которой будем работать
 
         public Game1()
         {
@@ -134,7 +134,7 @@ namespace Game2048
                 Game2048.NewNumber();
             }
 
-            MakingPositions(); // Это та функция которая делает просто позиции
+            Game2048.MakingPositions(); // Это та функция которая делает просто позиции
 
             //if (Game2048.CheckEndGame())
             //{
@@ -149,83 +149,21 @@ namespace Game2048
             base.Update(gameTime);
         }
 
-        private void MakingPositions()
-        {
-            for (int i = 0; i < 4; i++) // Тут формируются места для наших иконок, для каждого значения свое место, 
-                                        // То есть это просто векторы
-            {
-                for (int j = 0; j < 4; j++)
-                {
-                    positions[i, j] = new Vector2(start.X + (120 * j), start.Y + (120 * i));
-                }
-            }
-        }
-
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.Chocolate); // Цвет фона
 
             _spriteBatch.Begin(); // Начало отрисовки 
 
-            DrawingNumbers(); // Это функция как раз таки проверяет цифры, и ставит их как надо
+            Game2048.DrawingNumbers(); // Это функция как раз таки проверяет цифры, и ставит их как надо
 
-            DrawingScoreText();
+            Game2048.DrawingScoreText();
 
             _spriteBatch.End(); // Конец отрисовки
 
             // TODO: Add your drawing code here
 
             base.Draw(gameTime);
-        }
-
-        private void DrawingScoreText()
-        {
-            Vector2 position = new Microsoft.Xna.Framework.Vector2(_graphics.PreferredBackBufferWidth - 200, _graphics.PreferredBackBufferHeight - 100); // position
-            Microsoft.Xna.Framework.Color color = new Microsoft.Xna.Framework.Color(255, 255, 255);// color yellow
-            _spriteBatch.DrawString(textForScore, score.ToString(), position, color); // draw text
-        }
-
-        private void DrawingNumbers()
-        {
-            for (int i = 0; i < 4; i++) // Ниже 2 цикла которые проверяют, есть ли какие то цифры на игровой доске,
-                                        // если нет ничего, если есть => отрисовывают цифру которая есть в базе
-            {
-                for (int j = 0; j < 4; j++)
-                {
-                    if (gameBoard[i, j] == 2)
-                    {
-                        _spriteBatch.Draw(texture_2, positions[i, j], Color.White);
-                    }
-                    else if (gameBoard[i, j] == 4)
-                    {
-                        _spriteBatch.Draw(texture_4, positions[i, j], Color.White);
-                    }
-                    else if (gameBoard[i, j] == 8)
-                    {
-                        _spriteBatch.Draw(texture_8, positions[i, j], Color.White);
-                    }
-                    else if (gameBoard[i, j] == 16)
-                    {
-                        _spriteBatch.Draw(texture_16, positions[i, j], Color.White);
-                    }
-                    else if (gameBoard[i, j] == 32)
-                    {
-                        _spriteBatch.Draw(texture_32, positions[i, j], Color.White);
-                    }
-                    else if (gameBoard[i, j] == 64)
-                    {
-                        _spriteBatch.Draw(texture_64, positions[i, j], Color.White);
-                    }
-                    else if (gameBoard[i, j] == 128)
-                    {
-                        _spriteBatch.Draw(texture_128, positions[i, j], Color.White);
-                    }
-                    else if (gameBoard[i,j] == 2048)
-                    {
-                        _spriteBatch.Draw(texture_2048, positions[i, j], Color.White);
-                    }
-                }
-            }
         }
     }
 }
