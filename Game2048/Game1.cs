@@ -19,7 +19,16 @@ namespace Game2048
         public static Texture2D texture_32;
         public static Texture2D texture_64;
         public static Texture2D texture_128;
+        public static Texture2D texture_256;
+        public static Texture2D texture_512;
+        public static Texture2D texture_1024;
         public static Texture2D texture_2048;
+        public static Texture2D texture_4096;
+        public static Texture2D texture_8192;
+        public static Texture2D texture_16384;
+        public static Texture2D texture_32768;
+        public static Texture2D texture_65536;
+        public static Texture2D texture_131072;
 
         private static Vector2 start = new Vector2(50, 50); // Просто начальный вектор от которого будут отталкиваться остальные векторы
 
@@ -81,7 +90,16 @@ namespace Game2048
             texture_32 = Content.Load<Texture2D>("32");
             texture_64 = Content.Load<Texture2D>("64");
             texture_128 = Content.Load<Texture2D>("128");
+            texture_256 = Content.Load<Texture2D>("256");
+            texture_512 = Content.Load<Texture2D>("512");
+            texture_1024 = Content.Load<Texture2D>("1024");
             texture_2048 = Content.Load<Texture2D>("2048");
+            texture_4096 = Content.Load<Texture2D>("4096");
+            texture_8192 = Content.Load<Texture2D>("8192");
+            texture_16384 = Content.Load<Texture2D>("16384");
+            texture_32768 = Content.Load<Texture2D>("32768");
+            texture_65536 = Content.Load<Texture2D>("65536");
+            texture_131072 = Content.Load<Texture2D>("131072");
 
             textForScore = Content.Load<SpriteFont>("TextForScore");
             // TODO: use this.Content to load your game content here

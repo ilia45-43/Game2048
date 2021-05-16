@@ -42,35 +42,71 @@ namespace Game2048
                 {
                     if (gameBoard[i, j] == 2)
                     {
-                        _spriteBatch.Draw(texture_2, positions[i, j], Color.White);
+                        _spriteBatch.Draw(texture_2, new Rectangle((int)positions[i, j].X, (int)positions[i, j].Y, 108, 108), Color.White);
                     }
                     else if (gameBoard[i, j] == 4)
                     {
-                        _spriteBatch.Draw(texture_4, positions[i, j], Color.White);
+                        _spriteBatch.Draw(texture_4, new Rectangle((int)positions[i, j].X, (int)positions[i, j].Y, 108, 108), Color.White);
                     }
                     else if (gameBoard[i, j] == 8)
                     {
-                        _spriteBatch.Draw(texture_8, positions[i, j], Color.White);
+                        _spriteBatch.Draw(texture_8, new Rectangle((int)positions[i, j].X, (int)positions[i, j].Y, 108, 108), Color.White);
                     }
                     else if (gameBoard[i, j] == 16)
                     {
-                        _spriteBatch.Draw(texture_16, positions[i, j], Color.White);
+                        _spriteBatch.Draw(texture_16, new Rectangle((int)positions[i, j].X, (int)positions[i, j].Y, 108, 108), Color.White);
                     }
                     else if (gameBoard[i, j] == 32)
                     {
-                        _spriteBatch.Draw(texture_32, positions[i, j], Color.White);
+                        _spriteBatch.Draw(texture_32, new Rectangle((int) positions[i, j].X, (int) positions[i, j].Y, 108, 108), Color.White);
                     }
                     else if (gameBoard[i, j] == 64)
                     {
-                        _spriteBatch.Draw(texture_64, positions[i, j], Color.White);
+                        _spriteBatch.Draw(texture_64, new Rectangle((int)positions[i, j].X, (int)positions[i, j].Y, 108, 108), Color.White);
                     }
                     else if (gameBoard[i, j] == 128)
                     {
-                        _spriteBatch.Draw(texture_128, positions[i, j], Color.White);
+                        _spriteBatch.Draw(texture_128, new Rectangle((int)positions[i, j].X, (int)positions[i, j].Y, 108, 108), Color.White);
+                    }
+                    else if (gameBoard[i, j] == 256)
+                    {
+                        _spriteBatch.Draw(texture_256, new Rectangle((int)positions[i, j].X, (int)positions[i, j].Y, 108, 108), Color.White);
+                    }
+                    else if (gameBoard[i, j] == 512)
+                    {
+                        _spriteBatch.Draw(texture_512, new Rectangle((int)positions[i, j].X, (int)positions[i, j].Y, 108, 108), Color.White);
+                    }
+                    else if (gameBoard[i, j] == 1024)
+                    {
+                        _spriteBatch.Draw(texture_1024, new Rectangle((int)positions[i, j].X, (int)positions[i, j].Y, 108, 108), Color.White);
                     }
                     else if (gameBoard[i, j] == 2048)
                     {
-                        _spriteBatch.Draw(texture_2048, positions[i, j], Color.White);
+                        _spriteBatch.Draw(texture_2048, new Rectangle((int)positions[i, j].X, (int)positions[i, j].Y, 108, 108), Color.White);
+                    }
+                    else if (gameBoard[i, j] == 4096)
+                    {
+                        _spriteBatch.Draw(texture_4096, new Rectangle((int)positions[i, j].X, (int)positions[i, j].Y, 108, 108), Color.White);
+                    }
+                    else if (gameBoard[i, j] == 8192)
+                    {
+                        _spriteBatch.Draw(texture_8192, new Rectangle((int)positions[i, j].X, (int)positions[i, j].Y, 108, 108), Color.White);
+                    }
+                    else if (gameBoard[i, j] == 16384)
+                    {
+                        _spriteBatch.Draw(texture_16384, new Rectangle((int)positions[i, j].X, (int)positions[i, j].Y, 108, 108), Color.White);
+                    }
+                    else if (gameBoard[i, j] == 32768)
+                    {
+                        _spriteBatch.Draw(texture_32768, new Rectangle((int)positions[i, j].X, (int)positions[i, j].Y, 108, 108), Color.White);
+                    }
+                    else if (gameBoard[i, j] == 65536)
+                    {
+                        _spriteBatch.Draw(texture_65536, new Rectangle((int)positions[i, j].X, (int)positions[i, j].Y, 108, 108), Color.White);
+                    }
+                    else if (gameBoard[i, j] == 131072)
+                    {
+                        _spriteBatch.Draw(texture_131072, new Rectangle((int)positions[i, j].X, (int)positions[i, j].Y, 108, 108), Color.White);
                     }
                 }
             }
