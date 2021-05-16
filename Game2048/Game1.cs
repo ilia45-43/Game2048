@@ -12,6 +12,7 @@ namespace Game2048
         public static SpriteBatch _spriteBatch;
         public static SpriteFont textForScore;
 
+        #region LoadedContent
         public static Texture2D texture_0;
         public static Texture2D texture_2;
         public static Texture2D texture_4;
@@ -30,15 +31,18 @@ namespace Game2048
         public static Texture2D texture_32768;
         public static Texture2D texture_65536;
         public static Texture2D texture_131072;
+        #endregion
 
-        private static Vector2 start = new Vector2(50, 50); // Просто начальный вектор от которого будут отталкиваться остальные векторы
+        private static Vector2 start = new Vector2(50, 50);
 
-        public bool checkKeyDown = false;
-        public bool boolMoveBack = true;
+        public bool check_Key_Down = false;
+        public bool bool_Move_Back = true;
+        public bool check_CanMoveBack = false;
+        public bool check_NewBoardBuilded = true;
 
         public static int score = 0;
 
-        public static int countOfBackMove = 0;
+        public static int countOfBackMove = 30;
 
         public static Vector2[,] positions = new Vector2[4, 4] { 
             { start, start, start, start },
@@ -47,10 +51,10 @@ namespace Game2048
             { start, start, start, start }};
 
         public static int[,] gameBoard = new int[4, 4] { 
-            { 0, 0, 0, 4 }, 
-            { 2, 0, 0, 0 }, 
-            { 2, 0, 0, 0 }, 
-            { 0, 0, 0, 0 } }; // Основная доска с которой будем работать
+            { 0, 0, 0, 0 }, 
+            { 0, 0, 0, 0 }, 
+            { 0, 0, 0, 0 }, 
+            { 0, 0, 0, 0 } };
 
         public Game1()
         {
@@ -64,14 +68,26 @@ namespace Game2048
         {
             ChangingWindowSize(650, 650); // Метод который регулирует размер окна, он ниже
 
+            int[,] startMas = new int[4, 4];
+
+            startMas = Game2048.NewNumber(startMas);
+            startMas = Game2048.NewNumber(startMas);
+
+            gameBoard = startMas;
+
             base.Initialize();
         }
 
-        /// <summary>
-        /// This function changes the window size (Меняет размер окна)
-        /// </summary>
-        /// <param name="width"></param>
-        /// <param name="height"></param>
+        public static void NewGameBoard()
+        {
+            int[,] startMas = new int[4, 4];
+
+            startMas = Game2048.NewNumber(startMas);
+            startMas = Game2048.NewNumber(startMas);
+
+            gameBoard = startMas;
+        }
+
         private void ChangingWindowSize(int width, int height)
         {
             _graphics.IsFullScreen = false;
@@ -116,7 +132,7 @@ namespace Game2048
 
             // TODO: Add your update logic here
 
-            if (!checkKeyDown)
+            if (!check_Key_Down)
             {
                 if (keyboardState.IsKeyDown(Keys.Left))
                 {
@@ -124,7 +140,8 @@ namespace Game2048
                     Game2048.MoveLeft();
                     Game2048.SumLeft();
                     Game2048.MoveLeft();
-                    checkKeyDown = true;
+                    check_Key_Down = true;
+                    check_CanMoveBack = true;
                 }
 
                 if (keyboardState.IsKeyDown(Keys.Right))
@@ -133,7 +150,8 @@ namespace Game2048
                     Game2048.MoveRight();
                     Game2048.SumRight();
                     Game2048.MoveRight();
-                    checkKeyDown = true;
+                    check_Key_Down = true;
+                    check_CanMoveBack = true;
                 }
 
                 if (keyboardState.IsKeyDown(Keys.Up))
@@ -142,7 +160,8 @@ namespace Game2048
                     Game2048.MoveUp();
                     Game2048.SumUp();
                     Game2048.MoveUp();
-                    checkKeyDown = true;
+                    check_Key_Down = true;
+                    check_CanMoveBack = true;
                 }
 
                 if (keyboardState.IsKeyDown(Keys.Down))
@@ -151,35 +170,50 @@ namespace Game2048
                     Game2048.MoveDown();
                     Game2048.SumDown();
                     Game2048.MoveDown();
-                    checkKeyDown = true;
+                    check_Key_Down = true;
+                    check_CanMoveBack = true;
                 }
             }
 
-            
-
-            if (countOfBackMove <= 10)
+            if (check_CanMoveBack)
             {
-                if (boolMoveBack)
+                if (countOfBackMove >= 0)
                 {
-                    if (keyboardState.IsKeyDown(Keys.Back))
+                    if (bool_Move_Back)
                     {
-                        Game2048.MoveBack();
-                        boolMoveBack = false;
-                        countOfBackMove++;
+                        if (keyboardState.IsKeyDown(Keys.Back))
+                        {
+                            Game2048.MoveBack();
+                            bool_Move_Back = false;
+                            countOfBackMove--;
+                            check_CanMoveBack = false;
+                        }
                     }
                 }
             }
-
-            if ((boolMoveBack == false) && (keyboardState.IsKeyUp(Keys.Back)))
+            if ((bool_Move_Back == false) && (keyboardState.IsKeyUp(Keys.Back)))
             {
-                boolMoveBack = true;
+                bool_Move_Back = true;
             }
 
-            if ((checkKeyDown == true) && (keyboardState.IsKeyUp(Keys.Down) && keyboardState.IsKeyUp(Keys.Up) &&
+            if ((check_Key_Down == true) && (keyboardState.IsKeyUp(Keys.Down) && keyboardState.IsKeyUp(Keys.Up) &&
                 keyboardState.IsKeyUp(Keys.Right) && keyboardState.IsKeyUp(Keys.Left)))
             {
-                checkKeyDown = false;
+                check_Key_Down = false;
                 Game2048.NewNumber();
+            }
+
+            if (check_NewBoardBuilded)
+            {
+                if (keyboardState.IsKeyDown(Keys.Enter))
+                {
+                    NewGameBoard();
+                    check_NewBoardBuilded = false;
+                }
+            }
+            if ((keyboardState.IsKeyUp(Keys.Enter)) && (check_NewBoardBuilded == false))
+            {
+                check_NewBoardBuilded = true;
             }
 
             Game2048.MakingPositions(); // Это та функция которая делает просто позиции
@@ -189,7 +223,7 @@ namespace Game2048
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.Chocolate); // Цвет фона
+            GraphicsDevice.Clear(Color.IndianRed); // Цвет фона
 
             _spriteBatch.Begin(); // Начало отрисовки 
 

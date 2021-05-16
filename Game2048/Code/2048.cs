@@ -14,7 +14,7 @@ namespace Game2048
         public static List<int[,]> savedSteps = new List<int[,]>();
         public static List<int> savedScore = new List<int>();
 
-        private static Vector2 start = new Vector2(50, 50); // Просто начальный вектор от которого будут отталкиваться остальные векторы
+        private static Vector2 start = new Vector2(50, 50);
 
         public static void CountingScore(int number)
         {
@@ -276,8 +276,6 @@ namespace Game2048
             }
         }
 
-        
-
         public static void NewNumber()
         {
             if (checkNewStep)
@@ -304,8 +302,36 @@ namespace Game2048
                 checkNewStep = false;
                 spaceI.Clear();
                 spaceJ.Clear();
-
             }
+        }
+
+        public static int[,] NewNumber(int[,] newMas)
+        {
+            Random rand = new Random();
+
+            List<int> spaceI = new List<int>();
+            List<int> spaceJ = new List<int>();
+
+            int[,] mas = new int[4, 4];
+            Array.Copy(newMas, mas, 16);
+
+            for (int i = 0; i < 4; i++)
+                for (int j = 0; j < 4; j++)
+                    if (mas[i, j] == 0)
+                    {
+                        spaceI.Add(i);
+                        spaceJ.Add(j);
+                    }
+
+            int randomPlace = rand.Next(0, spaceI.Count);
+            int chanceForFour = rand.Next(0, 100);
+
+            mas[spaceI[randomPlace], spaceJ[randomPlace]] = chanceForFour <= 10 ? 4 : 2;
+
+            spaceI.Clear();
+            spaceJ.Clear();
+
+            return mas;
         }
 
         public static void MoveBack()
@@ -323,13 +349,14 @@ namespace Game2048
 
             Array.Copy(gameBoard, newMas, 16);
 
-            //if((savedScore.Count - 1) == 0)
-            //{
-            //    savedScore.RemoveAt(savedScore.Count - 1);
-            //}
-
             savedSteps.Add(newMas);
             savedScore.Add(scoreMinus);
+
+            if (savedSteps.Count >= 10)
+            {
+                savedSteps.RemoveAt(0);
+                savedScore.RemoveAt(0);
+            }
         }
 
 
