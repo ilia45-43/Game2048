@@ -11,6 +11,9 @@ namespace Game2048
     {
         static bool checkNewStep = false;
 
+        public static List<int[,]> savedSteps = new List<int[,]>();
+        public static List<int> savedScore = new List<int>();
+
         private static Vector2 start = new Vector2(50, 50); // Просто начальный вектор от которого будут отталкиваться остальные векторы
 
         public static void CountingScore(int number)
@@ -80,22 +83,22 @@ namespace Game2048
             _spriteBatch.DrawString(textForScore, score.ToString(), position, color); // draw text
         }
 
-        public static bool CheckEndGame()
-        {
-            int[,] copyGameBoard = new int[4, 4];
+        //public static bool CheckEndGame()
+        //{
+        //    int[,] copyGameBoard = new int[4, 4];
 
-            Array.Copy(gameBoard, 0, copyGameBoard, 0, 16);
+        //    Array.Copy(gameBoard, 0, copyGameBoard, 0, 16);
 
-            if ((MoveDown(copyGameBoard) && MoveUp(copyGameBoard) && MoveLeft(copyGameBoard) && MoveRight(copyGameBoard)
-                && SumDown(copyGameBoard) && SumUp(copyGameBoard) && SumLeft(copyGameBoard) && SumRight(copyGameBoard)) == true)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
+        //    if ((MoveDown(copyGameBoard) && MoveUp(copyGameBoard) && MoveLeft(copyGameBoard) && MoveRight(copyGameBoard)
+        //        && SumDown(copyGameBoard) && SumUp(copyGameBoard) && SumLeft(copyGameBoard) && SumRight(copyGameBoard)) == true)
+        //    {
+        //        return true;
+        //    }
+        //    else
+        //    {
+        //        return false;
+        //    }
+        //}
 
         public static void MoveLeft() // Функция передвижения влево
         {
@@ -128,6 +131,7 @@ namespace Game2048
                         gameBoard[i, j + 1] = 0;
                         checkNewStep = true;
                         CountingScore(gameBoard[i, j]);
+                        SavePreviousStep(gameBoard[i, j]);
                     }
                 }
             }
@@ -144,7 +148,6 @@ namespace Game2048
                             gameBoard[i, j + 1] = gameBoard[i, j];
                             gameBoard[i, j] = 0;
                             checkNewStep = true;
-
                         }
                     }
         }
@@ -161,6 +164,7 @@ namespace Game2048
                         gameBoard[i, j - 1] = 0;
                         checkNewStep = true;
                         CountingScore(gameBoard[i, j]);
+                        SavePreviousStep(gameBoard[i, j]);
                     }
                 }
             }
@@ -193,6 +197,7 @@ namespace Game2048
                         gameBoard[j + 1, i] = 0;
                         checkNewStep = true;
                         CountingScore(gameBoard[j, i]);
+                        SavePreviousStep(gameBoard[j, i]);
                     }
                 }
             }
@@ -225,6 +230,7 @@ namespace Game2048
                         gameBoard[j - 1, i] = 0;
                         checkNewStep = true;
                         CountingScore(gameBoard[j, i]);
+                        SavePreviousStep(gameBoard[j, i]);
                     }
                 }
             }
@@ -258,154 +264,179 @@ namespace Game2048
                 checkNewStep = false;
                 spaceI.Clear();
                 spaceJ.Clear();
+
             }
-
         }
 
-        public static bool MoveLeft(int[,] mas)
+        public static void MoveBack()
         {
-            bool checkStep = false;
-            for (int u = 0; u < 4; u++)
-            {
-                for (int i = 0; i < 4; i++)
-                {
-                    for (int j = 0; j < 3; j++)
-                    {
-                        if ((mas[i, j] == 0) && (mas[i, j + 1] != 0))
-                        {
-                            mas[i, j] = mas[i, j + 1];
-                            mas[i, j + 1] = 0;
-                            checkStep = true;
-                        }
-                    }
-                }
-            }
-            return checkStep;
+            Array.Copy(savedSteps[savedSteps.Count - 2], gameBoard, 16);
+            score -= savedScore[savedScore.Count - 1];
+
+            savedSteps.RemoveAt(savedSteps.Count - 1);
+            savedScore.RemoveAt(savedScore.Count - 1);
         }
 
-        public static bool SumDown(int[,] mas)
+        public static void SavePreviousStep(int scoreMinus)
         {
-            bool checkStep = false;
-            for (int i = 3; i >= 0; i--)
-            {
-                for (int j = 3; j > 0; j--)
-                {
-                    if ((mas[j, i] == mas[j - 1, i]) && (mas[j, i] != 0))
-                    {
-                        mas[j, i] = mas[j, i] + mas[j - 1, i];
-                        mas[j - 1, i] = 0;
-                        checkStep = true;
-                    }
-                }
-            }
-            return checkStep;
+            int[,] newMas = new int[4, 4];
+
+            Array.Copy(gameBoard, newMas, 16);
+
+            //if((savedScore.Count - 1) == 0)
+            //{
+            //    savedScore.RemoveAt(savedScore.Count - 1);
+            //}
+
+            savedSteps.Add(newMas);
+            savedScore.Add(scoreMinus);
         }
 
-        public static bool MoveDown(int[,] mas)
-        {
-            bool checkStep = false;
-            for (int u = 0; u < 4; u++)
-                for (int i = 0; i < 3; i++)
-                    for (int j = 0; j < 4; j++)
-                    {
-                        if ((mas[i + 1, j] == 0) && (mas[i, j] != 0))
-                        {
-                            mas[i + 1, j] = mas[i, j];
-                            mas[i, j] = 0;
-                            checkStep = true;
-                        }
-                    }
-            return checkStep;
-        }
 
-        public static bool SumUp(int[,] mas)
-        {
-            bool checkStep = false;
-            for (int i = 0; i < 4; i++)
-            {
-                for (int j = 0; j < 3; j++)
-                {
-                    if ((mas[j, i] == mas[j + 1, i]) && (mas[j, i] != 0))
-                    {
-                        mas[j, i] = mas[j, i] + mas[j + 1, i];
-                        mas[j + 1, i] = 0;
-                        checkStep = true;
-                    }
-                }
-            }
-            return checkStep;
-        }
+        //public static bool MoveLeft(int[,] mas)
+        //{
+        //    bool checkStep = false;
+        //    for (int u = 0; u < 4; u++)
+        //    {
+        //        for (int i = 0; i < 4; i++)
+        //        {
+        //            for (int j = 0; j < 3; j++)
+        //            {
+        //                if ((mas[i, j] == 0) && (mas[i, j + 1] != 0))
+        //                {
+        //                    mas[i, j] = mas[i, j + 1];
+        //                    mas[i, j + 1] = 0;
+        //                    checkStep = true;
+        //                }
+        //            }
+        //        }
+        //    }
+        //    return checkStep;
+        //}
 
-        public static bool MoveUp(int[,] mas)
-        {
-            bool checkStep = false;
-            for (int u = 0; u < 4; u++)
-                for (int i = 0; i < 3; i++)
-                    for (int j = 0; j < 4; j++)
-                    {
-                        if ((mas[i, j] == 0) && (mas[i + 1, j] != 0))
-                        {
-                            mas[i, j] = mas[i + 1, j];
-                            mas[i + 1, j] = 0;
-                            checkStep = true;
-                        }
-                    }
-            return checkStep;
-        }
+        //public static bool SumDown(int[,] mas)
+        //{
+        //    bool checkStep = false;
+        //    for (int i = 3; i >= 0; i--)
+        //    {
+        //        for (int j = 3; j > 0; j--)
+        //        {
+        //            if ((mas[j, i] == mas[j - 1, i]) && (mas[j, i] != 0))
+        //            {
+        //                mas[j, i] = mas[j, i] + mas[j - 1, i];
+        //                mas[j - 1, i] = 0;
+        //                checkStep = true;
+        //            }
+        //        }
+        //    }
+        //    return checkStep;
+        //}
 
-        public static bool SumRight(int[,] mas)
-        {
-            bool checkStep = false;
-            for (int i = 3; i >= 0; i--)
-            {
-                for (int j = 3; j > 0; j--)
-                {
-                    if ((mas[i, j - 1] == mas[i, j]) && (mas[i, j] != 0))
-                    {
-                        mas[i, j] = mas[i, j - 1] + mas[i, j];
-                        mas[i, j - 1] = 0;
-                        checkStep = true;
-                    }
-                }
-            }
-            return checkStep;
-        }
+        //public static bool MoveDown(int[,] mas)
+        //{
+        //    bool checkStep = false;
+        //    for (int u = 0; u < 4; u++)
+        //        for (int i = 0; i < 3; i++)
+        //            for (int j = 0; j < 4; j++)
+        //            {
+        //                if ((mas[i + 1, j] == 0) && (mas[i, j] != 0))
+        //                {
+        //                    mas[i + 1, j] = mas[i, j];
+        //                    mas[i, j] = 0;
+        //                    checkStep = true;
+        //                }
+        //            }
+        //    return checkStep;
+        //}
 
-        public static bool MoveRight(int[,] mas)
-        {
-            bool checkStep = false;
-            for (int u = 0; u < 4; u++)
-                for (int i = 0; i < 4; i++)
-                    for (int j = 0; j < 3; j++)
-                    {
-                        if ((mas[i, j + 1] == 0) && (mas[i, j] != 0))
-                        {
-                            mas[i, j + 1] = mas[i, j];
-                            mas[i, j] = 0;
-                            checkStep = true;
+        //public static bool SumUp(int[,] mas)
+        //{
+        //    bool checkStep = false;
+        //    for (int i = 0; i < 4; i++)
+        //    {
+        //        for (int j = 0; j < 3; j++)
+        //        {
+        //            if ((mas[j, i] == mas[j + 1, i]) && (mas[j, i] != 0))
+        //            {
+        //                mas[j, i] = mas[j, i] + mas[j + 1, i];
+        //                mas[j + 1, i] = 0;
+        //                checkStep = true;
+        //            }
+        //        }
+        //    }
+        //    return checkStep;
+        //}
 
-                        }
-                    }
-            return checkStep;
-        }
+        //public static bool MoveUp(int[,] mas)
+        //{
+        //    bool checkStep = false;
+        //    for (int u = 0; u < 4; u++)
+        //        for (int i = 0; i < 3; i++)
+        //            for (int j = 0; j < 4; j++)
+        //            {
+        //                if ((mas[i, j] == 0) && (mas[i + 1, j] != 0))
+        //                {
+        //                    mas[i, j] = mas[i + 1, j];
+        //                    mas[i + 1, j] = 0;
+        //                    checkStep = true;
+        //                }
+        //            }
+        //    return checkStep;
+        //}
 
-        public static bool SumLeft(int[,] mas)
-        {
-            bool checkStep = false;
-            for (int i = 0; i < 4; i++)
-            {
-                for (int j = 0; j < 3; j++)
-                {
-                    if ((mas[i, j + 1] == mas[i, j]) && (mas[i, j] != 0))
-                    {
-                        mas[i, j] = mas[i, j] + mas[i, j + 1];
-                        mas[i, j + 1] = 0;
-                        checkStep = true;
-                    }
-                }
-            }
-            return checkStep;
-        }
+        //public static bool SumRight(int[,] mas)
+        //{
+        //    bool checkStep = false;
+        //    for (int i = 3; i >= 0; i--)
+        //    {
+        //        for (int j = 3; j > 0; j--)
+        //        {
+        //            if ((mas[i, j - 1] == mas[i, j]) && (mas[i, j] != 0))
+        //            {
+        //                mas[i, j] = mas[i, j - 1] + mas[i, j];
+        //                mas[i, j - 1] = 0;
+        //                checkStep = true;
+        //            }
+        //        }
+        //    }
+        //    return checkStep;
+        //}
+
+        //public static bool MoveRight(int[,] mas)
+        //{
+        //    bool checkStep = false;
+        //    for (int u = 0; u < 4; u++)
+        //        for (int i = 0; i < 4; i++)
+        //            for (int j = 0; j < 3; j++)
+        //            {
+        //                if ((mas[i, j + 1] == 0) && (mas[i, j] != 0))
+        //                {
+        //                    mas[i, j + 1] = mas[i, j];
+        //                    mas[i, j] = 0;
+        //                    checkStep = true;
+
+        //                }
+        //            }
+        //    return checkStep;
+        //}
+
+        //public static bool SumLeft(int[,] mas)
+        //{
+        //    bool checkStep = false;
+        //    for (int i = 0; i < 4; i++)
+        //    {
+        //        for (int j = 0; j < 3; j++)
+        //        {
+        //            if ((mas[i, j + 1] == mas[i, j]) && (mas[i, j] != 0))
+        //            {
+        //                mas[i, j] = mas[i, j] + mas[i, j + 1];
+        //                mas[i, j + 1] = 0;
+        //                checkStep = true;
+        //            }
+        //        }
+        //    }
+        //    return checkStep;
+        //}
 
     }
 }

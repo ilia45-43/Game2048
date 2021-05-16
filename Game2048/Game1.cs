@@ -1,6 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System;
+using System.Collections.Generic;
 
 namespace Game2048
 {
@@ -22,8 +24,11 @@ namespace Game2048
         private static Vector2 start = new Vector2(50, 50); // Просто начальный вектор от которого будут отталкиваться остальные векторы
 
         public bool checkKeyDown = false;
+        public bool boolMoveBack = true;
 
         public static int score = 0;
+
+        public static int countOfBackMove = 0;
 
         public static Vector2[,] positions = new Vector2[4, 4] { 
             { start, start, start, start },
@@ -32,9 +37,9 @@ namespace Game2048
             { start, start, start, start }};
 
         public static int[,] gameBoard = new int[4, 4] { 
-            { 0, 0, 0, 0 }, 
-            { 4, 2, 4, 2 }, 
-            { 2, 4, 2, 4 }, 
+            { 0, 0, 0, 4 }, 
+            { 2, 0, 0, 0 }, 
+            { 2, 0, 0, 0 }, 
             { 0, 0, 0, 0 } }; // Основная доска с которой будем работать
 
         public Game1()
@@ -79,7 +84,6 @@ namespace Game2048
             texture_2048 = Content.Load<Texture2D>("2048");
 
             textForScore = Content.Load<SpriteFont>("TextForScore");
-
             // TODO: use this.Content to load your game content here
         }
 
@@ -96,6 +100,7 @@ namespace Game2048
             {
                 if (keyboardState.IsKeyDown(Keys.Left))
                 {
+                    Game2048.SavePreviousStep(0);
                     Game2048.MoveLeft();
                     Game2048.SumLeft();
                     Game2048.MoveLeft();
@@ -104,6 +109,7 @@ namespace Game2048
 
                 if (keyboardState.IsKeyDown(Keys.Right))
                 {
+                    Game2048.SavePreviousStep(0);
                     Game2048.MoveRight();
                     Game2048.SumRight();
                     Game2048.MoveRight();
@@ -112,6 +118,7 @@ namespace Game2048
 
                 if (keyboardState.IsKeyDown(Keys.Up))
                 {
+                    Game2048.SavePreviousStep(0);
                     Game2048.MoveUp();
                     Game2048.SumUp();
                     Game2048.MoveUp();
@@ -120,11 +127,32 @@ namespace Game2048
 
                 if (keyboardState.IsKeyDown(Keys.Down))
                 {
+                    Game2048.SavePreviousStep(0);
                     Game2048.MoveDown();
                     Game2048.SumDown();
                     Game2048.MoveDown();
                     checkKeyDown = true;
                 }
+            }
+
+            
+
+            if (countOfBackMove <= 10)
+            {
+                if (boolMoveBack)
+                {
+                    if (keyboardState.IsKeyDown(Keys.Back))
+                    {
+                        Game2048.MoveBack();
+                        boolMoveBack = false;
+                        countOfBackMove++;
+                    }
+                }
+            }
+
+            if ((boolMoveBack == false) && (keyboardState.IsKeyUp(Keys.Back)))
+            {
+                boolMoveBack = true;
             }
 
             if ((checkKeyDown == true) && (keyboardState.IsKeyUp(Keys.Down) && keyboardState.IsKeyUp(Keys.Up) &&
@@ -135,16 +163,6 @@ namespace Game2048
             }
 
             Game2048.MakingPositions(); // Это та функция которая делает просто позиции
-
-            //if (Game2048.CheckEndGame())
-            //{
-            //    gameBoard = new int[4, 4]{
-            //        { 0, 0, 0, 0 },
-            //        { 0, 0, 0, 0 },
-            //        { 0, 0, 0, 0 },
-            //        { 0, 0, 0, 0 }
-            //    };
-            //}
 
             base.Update(gameTime);
         }
