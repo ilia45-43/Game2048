@@ -12,6 +12,7 @@ namespace Game2048
         public static SpriteBatch _spriteBatch;
         public static SpriteFont textForScore;
 
+        public static Texture2D texture_0;
         public static Texture2D texture_2;
         public static Texture2D texture_4;
         public static Texture2D texture_8;
@@ -83,6 +84,7 @@ namespace Game2048
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
+            texture_0 = Content.Load<Texture2D>("0");
             texture_2 = Content.Load<Texture2D>("2");
             texture_4 = Content.Load<Texture2D>("4");
             texture_8 = Content.Load<Texture2D>("8");

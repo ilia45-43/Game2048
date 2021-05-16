@@ -40,7 +40,11 @@ namespace Game2048
             {
                 for (int j = 0; j < 4; j++)
                 {
-                    if (gameBoard[i, j] == 2)
+                    if(gameBoard[i,j] == 0)
+                    {
+                        _spriteBatch.Draw(texture_0, new Rectangle((int)positions[i, j].X, (int)positions[i, j].Y, 108, 108), Color.White);
+                    }
+                    else if (gameBoard[i, j] == 2)
                     {
                         _spriteBatch.Draw(texture_2, new Rectangle((int)positions[i, j].X, (int)positions[i, j].Y, 108, 108), Color.White);
                     }
@@ -58,7 +62,7 @@ namespace Game2048
                     }
                     else if (gameBoard[i, j] == 32)
                     {
-                        _spriteBatch.Draw(texture_32, new Rectangle((int) positions[i, j].X, (int) positions[i, j].Y, 108, 108), Color.White);
+                        _spriteBatch.Draw(texture_32, new Rectangle((int)positions[i, j].X, (int)positions[i, j].Y, 108, 108), Color.White);
                     }
                     else if (gameBoard[i, j] == 64)
                     {
