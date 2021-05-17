@@ -14,7 +14,7 @@ namespace Game2048
         public static List<int[,]> savedSteps = new List<int[,]>();
         public static List<int> savedScore = new List<int>();
 
-        private static Vector2 start = new Vector2(50, 50);
+        private static Vector2 start = new Vector2(86, 110);
 
         public static void CountingScore(int number)
         {
@@ -118,7 +118,7 @@ namespace Game2048
 
         public static void DrawingScoreText()
         {
-            Vector2 position = new Microsoft.Xna.Framework.Vector2(_graphics.PreferredBackBufferWidth - 200, _graphics.PreferredBackBufferHeight - 100); // position
+            Vector2 position = new Microsoft.Xna.Framework.Vector2(_graphics.PreferredBackBufferWidth - 135, _graphics.PreferredBackBufferHeight - 620); // position
             Microsoft.Xna.Framework.Color color = new Microsoft.Xna.Framework.Color(255, 255, 255);// color yellow
             _spriteBatch.DrawString(textForScore, score.ToString(), position, color); // draw text
         }
