@@ -13,8 +13,11 @@ namespace Game2048
         public static SpriteFont textForScore;
 
         public static Texture2D texture_background;
-        
+
         #region LoadedContent
+        public static Texture2D texture_newGame;
+        public static Texture2D texture_signboard;
+        public static Texture2D texture_scoreFrame;
         public static Texture2D texture_0;
         public static Texture2D texture_2;
         public static Texture2D texture_4;
@@ -101,8 +104,10 @@ namespace Game2048
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
-
+            texture_newGame = Content.Load<Texture2D>("newGame");
+            texture_scoreFrame = Content.Load<Texture2D>("scoreFrame");
             texture_background = Content.Load<Texture2D>("background");
+            texture_signboard = Content.Load<Texture2D>("signboard");
             texture_0 = Content.Load<Texture2D>("0");
             texture_2 = Content.Load<Texture2D>("2");
             texture_4 = Content.Load<Texture2D>("4");
@@ -231,7 +236,13 @@ namespace Game2048
             _spriteBatch.Begin(); // Начало отрисовки 
 
 
-            _spriteBatch.Draw(texture_background, new Vector2(32,32), Color.White);
+            _spriteBatch.Draw(texture_background, new Vector2(69,93), Color.White);
+
+            _spriteBatch.Draw(texture_scoreFrame, new Rectangle(500,18,130,55), Color.White);
+
+            _spriteBatch.Draw(texture_signboard, new Rectangle(80, 15, 200, 70), Color.White);
+
+            _spriteBatch.Draw(texture_newGame, new Rectangle(310, 15, 170, 60), Color.White);
 
             Game2048.DrawingNumbers(); // Это функция как раз таки проверяет цифры, и ставит их как надо
 
