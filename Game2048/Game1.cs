@@ -104,7 +104,7 @@ namespace Game2048
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
-            texture_newGame = Content.Load<Texture2D>("newGame");
+            //texture_newGame = Content.Load<Texture2D>("newGame");
             texture_scoreFrame = Content.Load<Texture2D>("scoreFrame");
             texture_background = Content.Load<Texture2D>("background");
             texture_signboard = Content.Load<Texture2D>("signboard");
@@ -242,7 +242,7 @@ namespace Game2048
 
             _spriteBatch.Draw(texture_signboard, new Rectangle(80, 15, 200, 70), Color.White);
 
-            _spriteBatch.Draw(texture_newGame, new Rectangle(310, 15, 170, 60), Color.White);
+            //_spriteBatch.Draw(texture_newGame, new Rectangle(310, 15, 170, 60), Color.White);
 
             Game2048.DrawingNumbers(); // Это функция как раз таки проверяет цифры, и ставит их как надо
 
