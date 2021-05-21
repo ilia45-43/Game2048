@@ -11,6 +11,7 @@ namespace Game2048
         public static GraphicsDeviceManager _graphics;
         public static SpriteBatch _spriteBatch;
         public static SpriteFont textForScore;
+        public static SpriteFont textForAnimaton;
 
         public static Texture2D texture_background;
 
@@ -44,6 +45,7 @@ namespace Game2048
         public bool bool_Move_Back = true;
         public bool check_CanMoveBack = false;
         public bool check_NewBoardBuilded = true;
+        //public static bool bool_ForAnimation = false;
 
         public static int score = 0;
 
@@ -83,7 +85,7 @@ namespace Game2048
             base.Initialize();
         }
 
-        public static void NewGameBoard()
+        private static void NewGameBoard()
         {
             int[,] startMas = new int[4, 4];
 
@@ -104,6 +106,7 @@ namespace Game2048
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
+
             //texture_newGame = Content.Load<Texture2D>("newGame");
             texture_scoreFrame = Content.Load<Texture2D>("scoreFrame");
             texture_background = Content.Load<Texture2D>("background");
@@ -128,6 +131,7 @@ namespace Game2048
             texture_131072 = Content.Load<Texture2D>("131072");
 
             textForScore = Content.Load<SpriteFont>("TextForScore");
+            textForAnimaton = Content.Load<SpriteFont>("TextForAnimation");
             // TODO: use this.Content to load your game content here
         }
 
@@ -224,7 +228,12 @@ namespace Game2048
                 check_NewBoardBuilded = true;
             }
 
-            Game2048.MakingPositions(); // Это та функция которая делает просто позиции
+            Game2048.MakingPositions();
+
+            if (Game2048.CheckEndGame())
+            {
+                score = 999999999;
+            }
 
             base.Update(gameTime);
         }
@@ -233,26 +242,49 @@ namespace Game2048
         {
             GraphicsDevice.Clear(Color.IndianRed); // Цвет фона
 
-            _spriteBatch.Begin(); // Начало отрисовки 
+            _spriteBatch.Begin();
 
-
-            _spriteBatch.Draw(texture_background, new Vector2(69,93), Color.White);
-
-            _spriteBatch.Draw(texture_scoreFrame, new Rectangle(500,18,130,55), Color.White);
-
-            _spriteBatch.Draw(texture_signboard, new Rectangle(80, 15, 200, 70), Color.White);
-
-            //_spriteBatch.Draw(texture_newGame, new Rectangle(310, 15, 170, 60), Color.White);
-
-            Game2048.DrawingNumbers(); // Это функция как раз таки проверяет цифры, и ставит их как надо
-
+            DrawingObjects();
+            Game2048.DrawingNumbers();
             Game2048.DrawingScoreText();
 
-            _spriteBatch.End(); // Конец отрисовки
+            //if (bool_ForAnimation)
+            //{
+            //    AnimationForScore(Game2048.plusScore);
+            //}
+
+            _spriteBatch.End();
 
             // TODO: Add your drawing code here
 
             base.Draw(gameTime);
+        }
+
+        //public static void AnimationForScore(int num)
+        //{
+        //    Vector2 position = new Microsoft.Xna.Framework.Vector2(_graphics.PreferredBackBufferWidth - 135, _graphics.PreferredBackBufferHeight - 620); // position
+        //    Microsoft.Xna.Framework.Color color = new Microsoft.Xna.Framework.Color(255, 255, 255);// color yellow
+        //    _spriteBatch.DrawString(textForAnimaton, num.ToString(), position, color); // draw text
+
+        //    for (int i = 0; i < 500; i++)
+        //    {
+        //        _spriteBatch.DrawString(textForAnimaton, num.ToString(), new Vector2(position.X, position.Y - 1/2), color); // draw text
+        //    }
+
+        //    Game2048.plusScore = 0;
+
+        //    bool_ForAnimation = false;
+        //}
+
+        private static void DrawingObjects()
+        {
+            //_spriteBatch.Draw(texture_newGame, new Rectangle(310, 15, 170, 60), Color.White);
+
+            _spriteBatch.Draw(texture_background, new Vector2(69, 93), Color.White);
+
+            _spriteBatch.Draw(texture_scoreFrame, new Rectangle(500, 18, 130, 55), Color.White);
+
+            _spriteBatch.Draw(texture_signboard, new Rectangle(80, 15, 200, 70), Color.White);
         }
     }
 }
