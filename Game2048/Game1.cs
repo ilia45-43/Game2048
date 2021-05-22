@@ -51,16 +51,16 @@ namespace Game2048
 
         public static int countOfBackMove = 30;
 
-        public static Vector2[,] positions = new Vector2[4, 4] { 
+        public static Vector2[,] positions = new Vector2[4, 4] {
             { start, start, start, start },
             { start, start, start, start },
             { start, start, start, start },
             { start, start, start, start }};
 
-        public static int[,] gameBoard = new int[4, 4] { 
-            { 0, 0, 0, 0 }, 
-            { 0, 0, 0, 0 }, 
-            { 0, 0, 0, 0 }, 
+        public static int[,] gameBoard = new int[4, 4] {
+            { 0, 0, 0, 0 },
+            { 0, 0, 0, 0 },
+            { 0, 0, 0, 0 },
             { 0, 0, 0, 0 } };
 
         public Game1()
@@ -93,6 +93,7 @@ namespace Game2048
             startMas = Game2048.NewNumber(startMas);
 
             gameBoard = startMas;
+            score = 0;
         }
 
         private void ChangingWindowSize(int width, int height)
