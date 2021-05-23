@@ -16,6 +16,8 @@ namespace Game2048
         public static Texture2D texture_background;
 
         #region LoadedContent
+        public static Texture2D texture_backspace;
+        public static Texture2D texture_bestScore;
         public static Texture2D texture_newGame;
         public static Texture2D texture_signboard;
         public static Texture2D texture_scoreFrame;
@@ -49,7 +51,7 @@ namespace Game2048
 
         public static int score = 0;
 
-        public static int countOfBackMove = 30;
+        public static int countOfBackMove = 3;
 
         public static Vector2[,] positions = new Vector2[4, 4] {
             { start, start, start, start },
@@ -108,6 +110,8 @@ namespace Game2048
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
+            texture_backspace = Content.Load<Texture2D>("backspace");
+            texture_bestScore = Content.Load<Texture2D>("bestScore");
             texture_newGame = Content.Load<Texture2D>("newGame");
             texture_scoreFrame = Content.Load<Texture2D>("scoreFrame");
             texture_background = Content.Load<Texture2D>("background");
@@ -195,7 +199,8 @@ namespace Game2048
                 {
                     if (bool_Move_Back)
                     {
-                        if (keyboardState.IsKeyDown(Keys.Back))
+                        if (((currentMouseState.X >= 220) && (currentMouseState.X <= 350)) && ((currentMouseState.Y >= 70) && (currentMouseState.Y <= 125)) && (currentMouseState.LeftButton == ButtonState.Pressed))
+                            //(keyboardState.IsKeyDown(Keys.Back))
                         {
                             Game2048.MoveBack();
                             bool_Move_Back = false;
@@ -205,7 +210,7 @@ namespace Game2048
                     }
                 }
             }
-            if ((bool_Move_Back == false) && (keyboardState.IsKeyUp(Keys.Back)))
+            if ((bool_Move_Back == false) && ((currentMouseState.X >= 360) && (currentMouseState.X <= 530)) && ((currentMouseState.Y >= 70) && (currentMouseState.Y <= 130)) && (currentMouseState.LeftButton == ButtonState.Released))
             {
                 bool_Move_Back = true;
             }
@@ -219,13 +224,13 @@ namespace Game2048
 
             if (check_NewBoardBuilded)
             {
-                if (((currentMouseState.X >= 310) && (currentMouseState.X <= 480)) && ((currentMouseState.Y >= 15) && (currentMouseState.Y <= 75)) && (currentMouseState.LeftButton == ButtonState.Pressed))
+                if (((currentMouseState.X >= 360) && (currentMouseState.X <= 530)) && ((currentMouseState.Y >= 70) && (currentMouseState.Y <= 130)) && (currentMouseState.LeftButton == ButtonState.Pressed))
                 {
                     NewGameBoard();
                     check_NewBoardBuilded = false;
                 }
             }
-            if (((currentMouseState.X >= 310) && (currentMouseState.X <= 480)) && ((currentMouseState.Y >= 15) && (currentMouseState.Y <= 75)) && (currentMouseState.LeftButton == ButtonState.Pressed) && (check_NewBoardBuilded == false))
+            if (((currentMouseState.X >= 360) && (currentMouseState.X <= 530)) && ((currentMouseState.Y >= 70) && (currentMouseState.Y <= 130)) && (currentMouseState.LeftButton == ButtonState.Released) && (check_NewBoardBuilded == false))
             {
                 check_NewBoardBuilded = true;
             }
@@ -282,13 +287,17 @@ namespace Game2048
         {
             _graphics.GraphicsDevice.Clear(Color.DarkOrchid);
 
-            _spriteBatch.Draw(texture_newGame, new Rectangle(310, 15, 170, 60), Color.White);
+            _spriteBatch.Draw(texture_backspace, new Rectangle(220,70,130,55), Color.White);
 
-            _spriteBatch.Draw(texture_background, new Vector2(69, 93), Color.White);
+            _spriteBatch.Draw(texture_bestScore, new Rectangle(360, 10, 170, 55),Color.White);
 
-            _spriteBatch.Draw(texture_scoreFrame, new Rectangle(500, 18, 130, 55), Color.White);
+            _spriteBatch.Draw(texture_newGame, new Rectangle(360, 70, 170, 60), Color.White);
 
-            _spriteBatch.Draw(texture_signboard, new Rectangle(80, 15, 200, 70), Color.White);
+            _spriteBatch.Draw(texture_background, new Vector2(69, 133), Color.White);
+
+            _spriteBatch.Draw(texture_scoreFrame, new Rectangle(220, 10, 130, 55), Color.White);
+
+            _spriteBatch.Draw(texture_signboard, new Rectangle(10, 35, 200, 70), Color.White);
         }
     }
 }
