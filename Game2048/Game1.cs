@@ -139,6 +139,7 @@ namespace Game2048
         protected override void Update(GameTime gameTime)
         {
             KeyboardState keyboardState = Keyboard.GetState();
+            MouseState currentMouseState = Mouse.GetState();
 
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
@@ -218,13 +219,13 @@ namespace Game2048
 
             if (check_NewBoardBuilded)
             {
-                if (keyboardState.IsKeyDown(Keys.Enter))
+                if (((currentMouseState.X >= 310) && (currentMouseState.X <= 480)) && ((currentMouseState.Y >= 15) && (currentMouseState.Y <= 75)) && (currentMouseState.LeftButton == ButtonState.Pressed))
                 {
                     NewGameBoard();
                     check_NewBoardBuilded = false;
                 }
             }
-            if ((keyboardState.IsKeyUp(Keys.Enter)) && (check_NewBoardBuilded == false))
+            if (((currentMouseState.X >= 310) && (currentMouseState.X <= 480)) && ((currentMouseState.Y >= 15) && (currentMouseState.Y <= 75)) && (currentMouseState.LeftButton == ButtonState.Pressed) && (check_NewBoardBuilded == false))
             {
                 check_NewBoardBuilded = true;
             }
@@ -279,6 +280,8 @@ namespace Game2048
 
         private static void DrawingObjects()
         {
+            _graphics.GraphicsDevice.Clear(Color.DarkOrchid);
+
             _spriteBatch.Draw(texture_newGame, new Rectangle(310, 15, 170, 60), Color.White);
 
             _spriteBatch.Draw(texture_background, new Vector2(69, 93), Color.White);
