@@ -108,7 +108,7 @@ namespace Game2048
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            //texture_newGame = Content.Load<Texture2D>("newGame");
+            texture_newGame = Content.Load<Texture2D>("newGame");
             texture_scoreFrame = Content.Load<Texture2D>("scoreFrame");
             texture_background = Content.Load<Texture2D>("background");
             texture_signboard = Content.Load<Texture2D>("signboard");
@@ -279,7 +279,7 @@ namespace Game2048
 
         private static void DrawingObjects()
         {
-            //_spriteBatch.Draw(texture_newGame, new Rectangle(310, 15, 170, 60), Color.White);
+            _spriteBatch.Draw(texture_newGame, new Rectangle(310, 15, 170, 60), Color.White);
 
             _spriteBatch.Draw(texture_background, new Vector2(69, 93), Color.White);
 
