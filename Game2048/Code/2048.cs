@@ -4,12 +4,13 @@ using System.Text;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework;
+using Microsoft.Win32;
 
 namespace Game2048
 {
     public class Game2048 : Game1
     {
-        //public static int plusScore = 0;
+        //public static int best_Score = 0;
 
         static bool checkNewStep = false;
 
@@ -23,6 +24,23 @@ namespace Game2048
             score += number;
             //plusScore = number;
             //bool_ForAnimation = true;
+        }
+
+        public static void BestScore_Save()
+        { 
+            RegistryKey currentUserKey = Registry.CurrentUser;
+            RegistryKey bestScore = currentUserKey.CreateSubKey("BestScore");
+            bestScore.SetValue("best", score);
+            bestScore.Close();
+        }
+
+        public static void BestScore_Get()
+        {
+            RegistryKey currentUserKey = Registry.CurrentUser;
+            RegistryKey bestScore = currentUserKey.OpenSubKey("BestScore");
+
+            bestScoreInt = int.Parse(bestScore.GetValue("best").ToString());
+            bestScore.Close();
         }
 
         public static void MakingPositions()
@@ -125,6 +143,20 @@ namespace Game2048
             Vector2 position = new Microsoft.Xna.Framework.Vector2(_graphics.PreferredBackBufferWidth - 420, _graphics.PreferredBackBufferHeight - 625); // position
             Microsoft.Xna.Framework.Color color = new Microsoft.Xna.Framework.Color(255, 255, 255);// color yellow
             _spriteBatch.DrawString(textForScore, score.ToString(), position, color); // draw text
+        }
+
+        public static void DrawingBackspaceCount()
+        {
+            Vector2 position = new Microsoft.Xna.Framework.Vector2(_graphics.PreferredBackBufferWidth - 335, _graphics.PreferredBackBufferHeight - 565); // position
+            Microsoft.Xna.Framework.Color color = new Microsoft.Xna.Framework.Color(255, 255, 255);// color yellow
+            _spriteBatch.DrawString(backspaceCount_Sprite, countOfBackMove.ToString(), position, color); // draw text
+        }
+
+        public static void DrawingBestScore()
+        {
+            Vector2 position = new Microsoft.Xna.Framework.Vector2(_graphics.PreferredBackBufferWidth - 220, _graphics.PreferredBackBufferHeight - 625); // position
+            Microsoft.Xna.Framework.Color color = new Microsoft.Xna.Framework.Color(255, 255, 255);// color yellow
+            _spriteBatch.DrawString(bestScore_Sprite, bestScoreInt.ToString(), position, color); // draw text
         }
 
         public static bool CheckEndGame()

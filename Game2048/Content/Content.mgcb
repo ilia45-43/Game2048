@@ -253,6 +253,13 @@
 /processorParam:TextureFormat=Color
 /build:backspace.png;backspace
 
+#begin Backspace_Count.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:Backspace_Count.spritefont;Backspace_Count
+
 #begin bestScore.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -264,6 +271,13 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:bestScore.png;bestScore
+
+#begin BestScore.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:BestScore.spritefont;BestScore_Count
 
 #begin File.spritefont
 /importer:FontDescriptionImporter
