@@ -151,14 +151,14 @@ namespace Game2048
 
         public static void DrawingBackspaceCount()
         {
-            Vector2 position = new Microsoft.Xna.Framework.Vector2(_graphics.PreferredBackBufferWidth - 335, _graphics.PreferredBackBufferHeight - 565); // position
+            Vector2 position = new Microsoft.Xna.Framework.Vector2(_graphics.PreferredBackBufferWidth - 355, _graphics.PreferredBackBufferHeight - 568); // position
             Microsoft.Xna.Framework.Color color = new Microsoft.Xna.Framework.Color(255, 255, 255);// color yellow
             _spriteBatch.DrawString(backspaceCount_Sprite, countOfBackMove.ToString(), position, color); // draw text
         }
 
         public static void DrawingBestScore()
         {
-            Vector2 position = new Microsoft.Xna.Framework.Vector2(_graphics.PreferredBackBufferWidth - 220, _graphics.PreferredBackBufferHeight - 625); // position
+            Vector2 position = new Microsoft.Xna.Framework.Vector2(_graphics.PreferredBackBufferWidth - 255, _graphics.PreferredBackBufferHeight - 627); // position
             Microsoft.Xna.Framework.Color color = new Microsoft.Xna.Framework.Color(255, 255, 255);// color yellow
             _spriteBatch.DrawString(bestScore_Sprite, bestScoreInt.ToString(), position, color); // draw text
         }
