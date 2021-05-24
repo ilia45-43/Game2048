@@ -299,7 +299,7 @@ namespace Game2048
         {
             _graphics.GraphicsDevice.Clear(Color.DarkOrchid);
 
-            _spriteBatch.Draw(texture_backspace, new Rectangle(220,70,130,55), Color.White);
+            _spriteBatch.Draw(texture_backspace, new Rectangle(220, 70, 130, 55), Color.White);
 
             _spriteBatch.Draw(texture_bestScore, new Rectangle(360, 10, 170, 55),Color.White);
 
