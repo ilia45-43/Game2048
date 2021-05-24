@@ -36,11 +36,15 @@ namespace Game2048
 
         public static void BestScore_Get()
         {
+
             RegistryKey currentUserKey = Registry.CurrentUser;
             RegistryKey bestScore = currentUserKey.OpenSubKey("BestScore");
-
-            bestScoreInt = int.Parse(bestScore.GetValue("best").ToString());
-            bestScore.Close();
+            
+            if(bestScore != null)
+            {
+                bestScoreInt = int.Parse(bestScore.GetValue("best").ToString());
+                bestScore.Close();
+            }
         }
 
         public static void MakingPositions()
