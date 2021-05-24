@@ -12,6 +12,8 @@ namespace Game2048
         public static SpriteBatch _spriteBatch;
         public static SpriteFont textForScore;
         public static SpriteFont textForAnimaton;
+        public static SpriteFont backspaceCount_Sprite;
+        public static SpriteFont bestScore_Sprite;
 
         public static Texture2D texture_background;
 
@@ -50,7 +52,7 @@ namespace Game2048
         //public static bool bool_ForAnimation = false;
 
         public static int score = 0;
-
+        public static int bestScoreInt = 0;
         public static int countOfBackMove = 3;
 
         public static Vector2[,] positions = new Vector2[4, 4] {
@@ -81,8 +83,9 @@ namespace Game2048
 
             startMas = Game2048.NewNumber(startMas);
             startMas = Game2048.NewNumber(startMas);
-
             gameBoard = startMas;
+
+            Game2048.BestScore_Get();
 
             base.Initialize();
         }
@@ -137,6 +140,8 @@ namespace Game2048
 
             textForScore = Content.Load<SpriteFont>("TextForScore");
             textForAnimaton = Content.Load<SpriteFont>("TextForAnimation");
+            backspaceCount_Sprite = Content.Load<SpriteFont>("Backspace_Count");
+            bestScore_Sprite = Content.Load<SpriteFont>("BestScore_Count");
             // TODO: use this.Content to load your game content here
         }
 
@@ -195,12 +200,11 @@ namespace Game2048
 
             if (check_CanMoveBack)
             {
-                if (countOfBackMove >= 0)
+                if (countOfBackMove >= 1)
                 {
                     if (bool_Move_Back)
                     {
-                        if (((currentMouseState.X >= 220) && (currentMouseState.X <= 350)) && ((currentMouseState.Y >= 70) && (currentMouseState.Y <= 125)) && (currentMouseState.LeftButton == ButtonState.Pressed))
-                            //(keyboardState.IsKeyDown(Keys.Back))
+                        if (bool_Move_Back && keyboardState.IsKeyDown(Keys.Back))
                         {
                             Game2048.MoveBack();
                             bool_Move_Back = false;
@@ -210,12 +214,12 @@ namespace Game2048
                     }
                 }
             }
-            if ((bool_Move_Back == false) && ((currentMouseState.X >= 360) && (currentMouseState.X <= 530)) && ((currentMouseState.Y >= 70) && (currentMouseState.Y <= 130)) && (currentMouseState.LeftButton == ButtonState.Released))
+            if (!bool_Move_Back && keyboardState.IsKeyUp(Keys.Back))
             {
                 bool_Move_Back = true;
             }
 
-            if ((check_Key_Down == true) && (keyboardState.IsKeyUp(Keys.Down) && keyboardState.IsKeyUp(Keys.Up) &&
+            if (check_Key_Down && (keyboardState.IsKeyUp(Keys.Down) && keyboardState.IsKeyUp(Keys.Up) &&
                 keyboardState.IsKeyUp(Keys.Right) && keyboardState.IsKeyUp(Keys.Left)))
             {
                 check_Key_Down = false;
@@ -237,9 +241,15 @@ namespace Game2048
 
             Game2048.MakingPositions();
 
-            if (Game2048.CheckEndGame())
+            //if (Game2048.CheckEndGame())
+            //{
+            //    score = 999999999;
+            //}
+
+            if (score >= bestScoreInt)
             {
-                score = 999999999;
+                Game2048.BestScore_Save();
+                bestScoreInt = score;
             }
 
             base.Update(gameTime);
@@ -254,6 +264,8 @@ namespace Game2048
             DrawingObjects();
             Game2048.DrawingNumbers();
             Game2048.DrawingScoreText();
+            Game2048.DrawingBackspaceCount();
+            Game2048.DrawingBestScore();
 
             //if (bool_ForAnimation)
             //{
