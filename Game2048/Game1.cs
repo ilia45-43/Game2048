@@ -86,7 +86,7 @@ namespace Game2048
             gameBoard = startMas;
 
             Game2048.BestScore_Get();
-
+            
             base.Initialize();
         }
 
