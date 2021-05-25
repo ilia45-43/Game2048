@@ -20,6 +20,7 @@ namespace Game2048
         public static Texture2D texture_background;
 
         #region LoadedContent
+        public static Texture2D texture_gameOver;
         public static Texture2D texture_backspace;
         public static Texture2D texture_bestScore;
         public static Texture2D texture_newGame;
@@ -110,6 +111,7 @@ namespace Game2048
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
+            texture_gameOver = Content.Load<Texture2D>("gameOver");
             texture_backspace = Content.Load<Texture2D>("backspace");
             texture_bestScore = Content.Load<Texture2D>("bestScore");
             texture_newGame = Content.Load<Texture2D>("newGame");
@@ -266,10 +268,10 @@ namespace Game2048
 
             _spriteBatch.Begin();
 
-            DrawingObjects();
+             DrawingObjects();
 
             Game2048.DrawingAllText();
-
+           
             _spriteBatch.End();
 
             base.Draw(gameTime);
@@ -290,6 +292,8 @@ namespace Game2048
             _spriteBatch.Draw(texture_scoreFrame, new Rectangle(220, 10, 130, 55), Color.White);
 
             _spriteBatch.Draw(texture_signboard, new Rectangle(10, 35, 200, 70), Color.White);
+
+            //_spriteBatch.Draw(texture_gameOver, new Vector2(69, 133), Color.White);
         }
     }
 }
