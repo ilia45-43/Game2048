@@ -61,7 +61,7 @@ namespace Game2048
             DrawingBestScore();
             DrawingNumbers();
         }
-
+        
         public static bool CheckEndGame()
         {
             int[,] copyGameBoard = new int[4, 4];
@@ -390,14 +390,14 @@ namespace Game2048
 
         private static void DrawingBackspaceCount()
         {
-            Vector2 position = new Microsoft.Xna.Framework.Vector2(_graphics.PreferredBackBufferWidth - 335, _graphics.PreferredBackBufferHeight - 565); // position
+            Vector2 position = new Microsoft.Xna.Framework.Vector2(_graphics.PreferredBackBufferWidth - 340, _graphics.PreferredBackBufferHeight - 567); // position
             Microsoft.Xna.Framework.Color color = new Microsoft.Xna.Framework.Color(255, 255, 255);// color yellow
             _spriteBatch.DrawString(backspaceCount_Sprite, countOfBackMove.ToString(), position, color); // draw text
         }
 
         private static void DrawingBestScore()
         {
-            Vector2 position = new Microsoft.Xna.Framework.Vector2(_graphics.PreferredBackBufferWidth - 220, _graphics.PreferredBackBufferHeight - 625); // position
+            Vector2 position = new Microsoft.Xna.Framework.Vector2(_graphics.PreferredBackBufferWidth - 225, _graphics.PreferredBackBufferHeight - 627); // position
             Microsoft.Xna.Framework.Color color = new Microsoft.Xna.Framework.Color(255, 255, 255);// color yellow
             _spriteBatch.DrawString(bestScore_Sprite, bestScoreInt.ToString(), position, color); // draw text
         }
@@ -408,6 +408,7 @@ namespace Game2048
             Microsoft.Xna.Framework.Color color = new Microsoft.Xna.Framework.Color(255, 255, 255);// color yellow
             _spriteBatch.DrawString(textForScore, score.ToString(), position, color); // draw text
         }
+       
 
         private static bool MoveLeft(int[,] mas)
         {
