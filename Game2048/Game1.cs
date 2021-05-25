@@ -251,10 +251,6 @@ namespace Game2048
 
             Game2048.MakingPositions(); // Генерация позиций для плиточек
 
-            if (Game2048.CheckEndGame())
-            {
-                score = 0;
-            }
 
             if (score >= bestScoreInt)
             {
