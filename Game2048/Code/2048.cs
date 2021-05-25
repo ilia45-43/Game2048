@@ -1,17 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework;
 using Microsoft.Win32;
+//using System.Text;
+//using Microsoft.Xna.Framework.Graphics;
+//using Microsoft.Xna.Framework.Input;
 
 namespace Game2048
 {
     public class Game2048 : Game1
     {
-        //public static int best_Score = 0;
-
         static bool checkNewStep = false;
 
         public static List<int[,]> savedSteps = new List<int[,]>();
@@ -22,8 +20,6 @@ namespace Game2048
         public static void CountingScore(int number)
         {
             score += number;
-            //plusScore = number;
-            //bool_ForAnimation = true;
         }
 
         public static void BestScore_Save()
@@ -36,7 +32,6 @@ namespace Game2048
 
         public static void BestScore_Get()
         {
-
             RegistryKey currentUserKey = Registry.CurrentUser;
             RegistryKey bestScore = currentUserKey.OpenSubKey("BestScore");
             
@@ -59,108 +54,12 @@ namespace Game2048
             }
         }
 
-        public static void DrawingNumbers()
+        public static void DrawingAllText()
         {
-            for (int i = 0; i < 4; i++) // Ниже 2 цикла которые проверяют, есть ли какие то цифры на игровой доске,
-                                        // если нет ничего, если есть => отрисовывают цифру которая есть в базе
-            {
-                for (int j = 0; j < 4; j++)
-                {
-                    if(gameBoard[i,j] == 0)
-                    {
-                        _spriteBatch.Draw(texture_0, new Rectangle((int)positions[i, j].X, (int)positions[i, j].Y, 108, 108), Color.White);
-                    }
-                    else if (gameBoard[i, j] == 2)
-                    {
-                        _spriteBatch.Draw(texture_2, new Rectangle((int)positions[i, j].X, (int)positions[i, j].Y, 108, 108), Color.White);
-                    }
-                    else if (gameBoard[i, j] == 4)
-                    {
-                        _spriteBatch.Draw(texture_4, new Rectangle((int)positions[i, j].X, (int)positions[i, j].Y, 108, 108), Color.White);
-                    }
-                    else if (gameBoard[i, j] == 8)
-                    {
-                        _spriteBatch.Draw(texture_8, new Rectangle((int)positions[i, j].X, (int)positions[i, j].Y, 108, 108), Color.White);
-                    }
-                    else if (gameBoard[i, j] == 16)
-                    {
-                        _spriteBatch.Draw(texture_16, new Rectangle((int)positions[i, j].X, (int)positions[i, j].Y, 108, 108), Color.White);
-                    }
-                    else if (gameBoard[i, j] == 32)
-                    {
-                        _spriteBatch.Draw(texture_32, new Rectangle((int)positions[i, j].X, (int)positions[i, j].Y, 108, 108), Color.White);
-                    }
-                    else if (gameBoard[i, j] == 64)
-                    {
-                        _spriteBatch.Draw(texture_64, new Rectangle((int)positions[i, j].X, (int)positions[i, j].Y, 108, 108), Color.White);
-                    }
-                    else if (gameBoard[i, j] == 128)
-                    {
-                        _spriteBatch.Draw(texture_128, new Rectangle((int)positions[i, j].X, (int)positions[i, j].Y, 108, 108), Color.White);
-                    }
-                    else if (gameBoard[i, j] == 256)
-                    {
-                        _spriteBatch.Draw(texture_256, new Rectangle((int)positions[i, j].X, (int)positions[i, j].Y, 108, 108), Color.White);
-                    }
-                    else if (gameBoard[i, j] == 512)
-                    {
-                        _spriteBatch.Draw(texture_512, new Rectangle((int)positions[i, j].X, (int)positions[i, j].Y, 108, 108), Color.White);
-                    }
-                    else if (gameBoard[i, j] == 1024)
-                    {
-                        _spriteBatch.Draw(texture_1024, new Rectangle((int)positions[i, j].X, (int)positions[i, j].Y, 108, 108), Color.White);
-                    }
-                    else if (gameBoard[i, j] == 2048)
-                    {
-                        _spriteBatch.Draw(texture_2048, new Rectangle((int)positions[i, j].X, (int)positions[i, j].Y, 108, 108), Color.White);
-                    }
-                    else if (gameBoard[i, j] == 4096)
-                    {
-                        _spriteBatch.Draw(texture_4096, new Rectangle((int)positions[i, j].X, (int)positions[i, j].Y, 108, 108), Color.White);
-                    }
-                    else if (gameBoard[i, j] == 8192)
-                    {
-                        _spriteBatch.Draw(texture_8192, new Rectangle((int)positions[i, j].X, (int)positions[i, j].Y, 108, 108), Color.White);
-                    }
-                    else if (gameBoard[i, j] == 16384)
-                    {
-                        _spriteBatch.Draw(texture_16384, new Rectangle((int)positions[i, j].X, (int)positions[i, j].Y, 108, 108), Color.White);
-                    }
-                    else if (gameBoard[i, j] == 32768)
-                    {
-                        _spriteBatch.Draw(texture_32768, new Rectangle((int)positions[i, j].X, (int)positions[i, j].Y, 108, 108), Color.White);
-                    }
-                    else if (gameBoard[i, j] == 65536)
-                    {
-                        _spriteBatch.Draw(texture_65536, new Rectangle((int)positions[i, j].X, (int)positions[i, j].Y, 108, 108), Color.White);
-                    }
-                    else if (gameBoard[i, j] == 131072)
-                    {
-                        _spriteBatch.Draw(texture_131072, new Rectangle((int)positions[i, j].X, (int)positions[i, j].Y, 108, 108), Color.White);
-                    }
-                }
-            }
-        }
-
-        public static void DrawingScoreText()
-        {
-            Vector2 position = new Microsoft.Xna.Framework.Vector2(_graphics.PreferredBackBufferWidth - 420, _graphics.PreferredBackBufferHeight - 625); // position
-            Microsoft.Xna.Framework.Color color = new Microsoft.Xna.Framework.Color(255, 255, 255);// color yellow
-            _spriteBatch.DrawString(textForScore, score.ToString(), position, color); // draw text
-        }
-
-        public static void DrawingBackspaceCount()
-        {
-            Vector2 position = new Microsoft.Xna.Framework.Vector2(_graphics.PreferredBackBufferWidth - 335, _graphics.PreferredBackBufferHeight - 565); // position
-            Microsoft.Xna.Framework.Color color = new Microsoft.Xna.Framework.Color(255, 255, 255);// color yellow
-            _spriteBatch.DrawString(backspaceCount_Sprite, countOfBackMove.ToString(), position, color); // draw text
-        }
-
-        public static void DrawingBestScore()
-        {
-            Vector2 position = new Microsoft.Xna.Framework.Vector2(_graphics.PreferredBackBufferWidth - 220, _graphics.PreferredBackBufferHeight - 625); // position
-            Microsoft.Xna.Framework.Color color = new Microsoft.Xna.Framework.Color(255, 255, 255);// color yellow
-            _spriteBatch.DrawString(bestScore_Sprite, bestScoreInt.ToString(), position, color); // draw text
+            DrawingScoreText();
+            DrawingBackspaceCount();
+            DrawingBestScore();
+            DrawingNumbers();
         }
 
         public static bool CheckEndGame()
@@ -169,14 +68,14 @@ namespace Game2048
 
             Array.Copy(gameBoard, copyGameBoard, 16);
 
-            if ((MoveDown(copyGameBoard) == false 
-                && MoveUp(copyGameBoard) == false 
-                && MoveLeft(copyGameBoard) == false 
-                && MoveRight(copyGameBoard) == false
-                && SumDown(copyGameBoard) == false
-                && SumUp(copyGameBoard) == false
-                && SumLeft(copyGameBoard) == false
-                && SumRight(copyGameBoard) == false))
+            if ((!MoveDown(copyGameBoard) 
+                && !MoveUp(copyGameBoard) 
+                && !MoveLeft(copyGameBoard) 
+                && !MoveRight(copyGameBoard)
+                && !SumDown(copyGameBoard)
+                && !SumUp(copyGameBoard)
+                && !SumLeft(copyGameBoard)
+                && !SumRight(copyGameBoard)))
             {
                 return true;
             }
@@ -406,7 +305,111 @@ namespace Game2048
         }
 
 
-        public static bool MoveLeft(int[,] mas)
+        private static void DrawingNumbers()
+        {
+            for (int i = 0; i < 4; i++) // Ниже 2 цикла которые проверяют, есть ли какие то цифры на игровой доске,
+                                        // если нет ничего, если есть => отрисовывают цифру которая есть в базе
+            {
+                for (int j = 0; j < 4; j++)
+                {
+                    if(gameBoard[i,j] == 0)
+                    {
+                        _spriteBatch.Draw(texture_0, new Rectangle((int)positions[i, j].X, (int)positions[i, j].Y, 108, 108), Color.White);
+                    }
+                    else if (gameBoard[i, j] == 2)
+                    {
+                        _spriteBatch.Draw(texture_2, new Rectangle((int)positions[i, j].X, (int)positions[i, j].Y, 108, 108), Color.White);
+                    }
+                    else if (gameBoard[i, j] == 4)
+                    {
+                        _spriteBatch.Draw(texture_4, new Rectangle((int)positions[i, j].X, (int)positions[i, j].Y, 108, 108), Color.White);
+                    }
+                    else if (gameBoard[i, j] == 8)
+                    {
+                        _spriteBatch.Draw(texture_8, new Rectangle((int)positions[i, j].X, (int)positions[i, j].Y, 108, 108), Color.White);
+                    }
+                    else if (gameBoard[i, j] == 16)
+                    {
+                        _spriteBatch.Draw(texture_16, new Rectangle((int)positions[i, j].X, (int)positions[i, j].Y, 108, 108), Color.White);
+                    }
+                    else if (gameBoard[i, j] == 32)
+                    {
+                        _spriteBatch.Draw(texture_32, new Rectangle((int)positions[i, j].X, (int)positions[i, j].Y, 108, 108), Color.White);
+                    }
+                    else if (gameBoard[i, j] == 64)
+                    {
+                        _spriteBatch.Draw(texture_64, new Rectangle((int)positions[i, j].X, (int)positions[i, j].Y, 108, 108), Color.White);
+                    }
+                    else if (gameBoard[i, j] == 128)
+                    {
+                        _spriteBatch.Draw(texture_128, new Rectangle((int)positions[i, j].X, (int)positions[i, j].Y, 108, 108), Color.White);
+                    }
+                    else if (gameBoard[i, j] == 256)
+                    {
+                        _spriteBatch.Draw(texture_256, new Rectangle((int)positions[i, j].X, (int)positions[i, j].Y, 108, 108), Color.White);
+                    }
+                    else if (gameBoard[i, j] == 512)
+                    {
+                        _spriteBatch.Draw(texture_512, new Rectangle((int)positions[i, j].X, (int)positions[i, j].Y, 108, 108), Color.White);
+                    }
+                    else if (gameBoard[i, j] == 1024)
+                    {
+                        _spriteBatch.Draw(texture_1024, new Rectangle((int)positions[i, j].X, (int)positions[i, j].Y, 108, 108), Color.White);
+                    }
+                    else if (gameBoard[i, j] == 2048)
+                    {
+                        _spriteBatch.Draw(texture_2048, new Rectangle((int)positions[i, j].X, (int)positions[i, j].Y, 108, 108), Color.White);
+                    }
+                    else if (gameBoard[i, j] == 4096)
+                    {
+                        _spriteBatch.Draw(texture_4096, new Rectangle((int)positions[i, j].X, (int)positions[i, j].Y, 108, 108), Color.White);
+                    }
+                    else if (gameBoard[i, j] == 8192)
+                    {
+                        _spriteBatch.Draw(texture_8192, new Rectangle((int)positions[i, j].X, (int)positions[i, j].Y, 108, 108), Color.White);
+                    }
+                    else if (gameBoard[i, j] == 16384)
+                    {
+                        _spriteBatch.Draw(texture_16384, new Rectangle((int)positions[i, j].X, (int)positions[i, j].Y, 108, 108), Color.White);
+                    }
+                    else if (gameBoard[i, j] == 32768)
+                    {
+                        _spriteBatch.Draw(texture_32768, new Rectangle((int)positions[i, j].X, (int)positions[i, j].Y, 108, 108), Color.White);
+                    }
+                    else if (gameBoard[i, j] == 65536)
+                    {
+                        _spriteBatch.Draw(texture_65536, new Rectangle((int)positions[i, j].X, (int)positions[i, j].Y, 108, 108), Color.White);
+                    }
+                    else if (gameBoard[i, j] == 131072)
+                    {
+                        _spriteBatch.Draw(texture_131072, new Rectangle((int)positions[i, j].X, (int)positions[i, j].Y, 108, 108), Color.White);
+                    }
+                }
+            }
+        }
+
+        private static void DrawingBackspaceCount()
+        {
+            Vector2 position = new Microsoft.Xna.Framework.Vector2(_graphics.PreferredBackBufferWidth - 335, _graphics.PreferredBackBufferHeight - 565); // position
+            Microsoft.Xna.Framework.Color color = new Microsoft.Xna.Framework.Color(255, 255, 255);// color yellow
+            _spriteBatch.DrawString(backspaceCount_Sprite, countOfBackMove.ToString(), position, color); // draw text
+        }
+
+        private static void DrawingBestScore()
+        {
+            Vector2 position = new Microsoft.Xna.Framework.Vector2(_graphics.PreferredBackBufferWidth - 220, _graphics.PreferredBackBufferHeight - 625); // position
+            Microsoft.Xna.Framework.Color color = new Microsoft.Xna.Framework.Color(255, 255, 255);// color yellow
+            _spriteBatch.DrawString(bestScore_Sprite, bestScoreInt.ToString(), position, color); // draw text
+        }
+
+        private static void DrawingScoreText()
+        {
+            Vector2 position = new Microsoft.Xna.Framework.Vector2(_graphics.PreferredBackBufferWidth - 420, _graphics.PreferredBackBufferHeight - 625); // position
+            Microsoft.Xna.Framework.Color color = new Microsoft.Xna.Framework.Color(255, 255, 255);// color yellow
+            _spriteBatch.DrawString(textForScore, score.ToString(), position, color); // draw text
+        }
+
+        private static bool MoveLeft(int[,] mas)
         {
             bool checkStep = false;
             for (int u = 0; u < 4; u++)
@@ -427,7 +430,7 @@ namespace Game2048
             return checkStep;
         }
 
-        public static bool SumDown(int[,] mas)
+        private static bool SumDown(int[,] mas)
         {
             bool checkStep = false;
             for (int i = 3; i >= 0; i--)
@@ -445,7 +448,7 @@ namespace Game2048
             return checkStep;
         }
 
-        public static bool MoveDown(int[,] mas)
+        private static bool MoveDown(int[,] mas)
         {
             bool checkStep = false;
             for (int u = 0; u < 4; u++)
@@ -462,7 +465,7 @@ namespace Game2048
             return checkStep;
         }
 
-        public static bool SumUp(int[,] mas)
+        private static bool SumUp(int[,] mas)
         {
             bool checkStep = false;
             for (int i = 0; i < 4; i++)
@@ -480,7 +483,7 @@ namespace Game2048
             return checkStep;
         }
 
-        public static bool MoveUp(int[,] mas)
+        private static bool MoveUp(int[,] mas)
         {
             bool checkStep = false;
             for (int u = 0; u < 4; u++)
@@ -497,7 +500,7 @@ namespace Game2048
             return checkStep;
         }
 
-        public static bool SumRight(int[,] mas)
+        private static bool SumRight(int[,] mas)
         {
             bool checkStep = false;
             for (int i = 3; i >= 0; i--)
@@ -515,7 +518,7 @@ namespace Game2048
             return checkStep;
         }
 
-        public static bool MoveRight(int[,] mas)
+        private static bool MoveRight(int[,] mas)
         {
             bool checkStep = false;
             for (int u = 0; u < 4; u++)
@@ -533,7 +536,7 @@ namespace Game2048
             return checkStep;
         }
 
-        public static bool SumLeft(int[,] mas)
+        private static bool SumLeft(int[,] mas)
         {
             bool checkStep = false;
             for (int i = 0; i < 4; i++)
