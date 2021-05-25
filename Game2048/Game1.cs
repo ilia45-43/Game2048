@@ -64,10 +64,10 @@ namespace Game2048
             { start, start, start, start }};
 
         public static int[,] gameBoard = new int[4, 4] {
-            { 0, 0, 0, 0 },
-            { 0, 0, 0, 0 },
-            { 0, 0, 0, 0 },
-            { 0, 0, 0, 0 } };
+            { 2, 4, 2, 4 },
+            { 4, 2, 4, 2 },
+            { 2, 4, 2, 4 },
+            { 4, 2, 4, 2 } };
 
         public Game1()
         {
@@ -97,6 +97,9 @@ namespace Game2048
 
             gameBoard = startMas;
             score = 0;
+            countOfBackMove = 3;
+            Game2048.savedSteps.Clear();
+            Game2048.savedScore.Clear();
         }
 
         private void ChangingWindowSize(int width, int height)
@@ -231,7 +234,7 @@ namespace Game2048
             if (check_NewBoardBuilded)
             {
                 if (((currentMouseState.X >= 360) && (currentMouseState.X <= 530)) && ((currentMouseState.Y >= 70) && 
-                    (currentMouseState.Y <= 130)) && (currentMouseState.LeftButton == ButtonState.Pressed))
+                    (currentMouseState.Y <= 130)) && (currentMouseState.LeftButton == ButtonState.Pressed) )
                 {
                     NewGameBoard();
                     check_NewBoardBuilded = false;
@@ -240,7 +243,7 @@ namespace Game2048
 
             // Чек новой игры (отжатие)
             if (((currentMouseState.X >= 360) && (currentMouseState.X <= 530)) && ((currentMouseState.Y >= 70) && 
-                (currentMouseState.Y <= 130)) && (currentMouseState.LeftButton == ButtonState.Released) && (!check_NewBoardBuilded))
+                (currentMouseState.Y <= 130)) && (currentMouseState.LeftButton == ButtonState.Released) && (!check_NewBoardBuilded)) 
             {
                 check_NewBoardBuilded = true;
             }
@@ -264,6 +267,7 @@ namespace Game2048
 
         protected override void Draw(GameTime gameTime)
         {
+            MouseState currentMouseState = Mouse.GetState();
             GraphicsDevice.Clear(Color.IndianRed); // Цвет фона
 
             _spriteBatch.Begin();
@@ -271,7 +275,18 @@ namespace Game2048
              DrawingObjects();
 
             Game2048.DrawingAllText();
-           
+
+            if (Game2048.CheckEndGame())
+            {
+                _spriteBatch.Draw(texture_gameOver, new Vector2(69, 133), Color.White);
+
+                if (((currentMouseState.X >= 217) && (currentMouseState.X <= 417)) && ((currentMouseState.Y >= 447) &&
+                    (currentMouseState.Y <= 510)) && (currentMouseState.LeftButton == ButtonState.Pressed)) 
+                {
+                    NewGameBoard();
+                }
+            }
+
             _spriteBatch.End();
 
             base.Draw(gameTime);
@@ -292,8 +307,6 @@ namespace Game2048
             _spriteBatch.Draw(texture_scoreFrame, new Rectangle(220, 10, 130, 55), Color.White);
 
             _spriteBatch.Draw(texture_signboard, new Rectangle(10, 35, 200, 70), Color.White);
-
-            //_spriteBatch.Draw(texture_gameOver, new Vector2(69, 133), Color.White);
         }
     }
 }
