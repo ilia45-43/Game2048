@@ -1,19 +1,21 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using System;
-using System.Collections.Generic;
+//using System;
+//using System.Collections.Generic;
 
 namespace Game2048
 {
     public class Game1 : Game
     {
+        #region Initialization
         public static GraphicsDeviceManager _graphics;
         public static SpriteBatch _spriteBatch;
         public static SpriteFont textForScore;
         public static SpriteFont textForAnimaton;
         public static SpriteFont backspaceCount_Sprite;
         public static SpriteFont bestScore_Sprite;
+        #endregion
 
         public static Texture2D texture_background;
 
@@ -49,7 +51,6 @@ namespace Game2048
         public bool bool_Move_Back = true;
         public bool check_CanMoveBack = false;
         public bool check_NewBoardBuilded = true;
-        //public static bool bool_ForAnimation = false;
 
         public static int score = 0;
         public static int bestScoreInt = 0;
@@ -79,11 +80,7 @@ namespace Game2048
         {
             ChangingWindowSize(650, 650); // Метод который регулирует размер окна, он ниже
 
-            int[,] startMas = new int[4, 4];
-
-            startMas = Game2048.NewNumber(startMas);
-            startMas = Game2048.NewNumber(startMas);
-            gameBoard = startMas;
+            NewGameBoard();
 
             Game2048.BestScore_Get();
             
@@ -153,8 +150,7 @@ namespace Game2048
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            // TODO: Add your update logic here
-
+            // Чек нажатий
             if (!check_Key_Down)
             {
                 if (keyboardState.IsKeyDown(Keys.Left))
@@ -198,6 +194,7 @@ namespace Game2048
                 }
             }
 
+            // Чек отмены хода
             if (check_CanMoveBack)
             {
                 if (countOfBackMove >= 1)
@@ -214,11 +211,13 @@ namespace Game2048
                     }
                 }
             }
+            // Чек отмены хода (отжатие)
             if (!bool_Move_Back && keyboardState.IsKeyUp(Keys.Back))
             {
                 bool_Move_Back = true;
             }
 
+            // Чек для генерирования новой плитки
             if (check_Key_Down && (keyboardState.IsKeyUp(Keys.Down) && keyboardState.IsKeyUp(Keys.Up) &&
                 keyboardState.IsKeyUp(Keys.Right) && keyboardState.IsKeyUp(Keys.Left)))
             {
@@ -226,25 +225,31 @@ namespace Game2048
                 Game2048.NewNumber();
             }
 
+            // Чек новой игры
             if (check_NewBoardBuilded)
             {
-                if (((currentMouseState.X >= 360) && (currentMouseState.X <= 530)) && ((currentMouseState.Y >= 70) && (currentMouseState.Y <= 130)) && (currentMouseState.LeftButton == ButtonState.Pressed))
+                if (((currentMouseState.X >= 360) && (currentMouseState.X <= 530)) && ((currentMouseState.Y >= 70) && 
+                    (currentMouseState.Y <= 130)) && (currentMouseState.LeftButton == ButtonState.Pressed))
                 {
                     NewGameBoard();
                     check_NewBoardBuilded = false;
                 }
             }
-            if (((currentMouseState.X >= 360) && (currentMouseState.X <= 530)) && ((currentMouseState.Y >= 70) && (currentMouseState.Y <= 130)) && (currentMouseState.LeftButton == ButtonState.Released) && (check_NewBoardBuilded == false))
+
+            // Чек новой игры (отжатие)
+            if (((currentMouseState.X >= 360) && (currentMouseState.X <= 530)) && ((currentMouseState.Y >= 70) && 
+                (currentMouseState.Y <= 130)) && (currentMouseState.LeftButton == ButtonState.Released) && (!check_NewBoardBuilded))
             {
                 check_NewBoardBuilded = true;
             }
 
-            Game2048.MakingPositions();
 
-            //if (Game2048.CheckEndGame())
-            //{
-            //    score = 999999999;
-            //}
+            Game2048.MakingPositions(); // Генерация позиций для плиточек
+
+            if (Game2048.CheckEndGame())
+            {
+                score = 0;
+            }
 
             if (score >= bestScoreInt)
             {
@@ -262,38 +267,13 @@ namespace Game2048
             _spriteBatch.Begin();
 
             DrawingObjects();
-            Game2048.DrawingNumbers();
-            Game2048.DrawingScoreText();
-            Game2048.DrawingBackspaceCount();
-            Game2048.DrawingBestScore();
 
-            //if (bool_ForAnimation)
-            //{
-            //    AnimationForScore(Game2048.plusScore);
-            //}
+            Game2048.DrawingAllText();
 
             _spriteBatch.End();
 
-            // TODO: Add your drawing code here
-
             base.Draw(gameTime);
         }
-
-        //public static void AnimationForScore(int num)
-        //{
-        //    Vector2 position = new Microsoft.Xna.Framework.Vector2(_graphics.PreferredBackBufferWidth - 135, _graphics.PreferredBackBufferHeight - 620); // position
-        //    Microsoft.Xna.Framework.Color color = new Microsoft.Xna.Framework.Color(255, 255, 255);// color yellow
-        //    _spriteBatch.DrawString(textForAnimaton, num.ToString(), position, color); // draw text
-
-        //    for (int i = 0; i < 500; i++)
-        //    {
-        //        _spriteBatch.DrawString(textForAnimaton, num.ToString(), new Vector2(position.X, position.Y - 1/2), color); // draw text
-        //    }
-
-        //    Game2048.plusScore = 0;
-
-        //    bool_ForAnimation = false;
-        //}
 
         private static void DrawingObjects()
         {
