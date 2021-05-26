@@ -49,7 +49,7 @@ namespace Game2048
         private static Vector2 start = new Vector2(50, 50);
 
         public bool check_Key_Down = false;
-        public bool bool_Move_Back = true;
+        public bool bool_Move_Back = false;
         public bool check_CanMoveBack = false;
         public bool check_NewBoardBuilded = true;
 
